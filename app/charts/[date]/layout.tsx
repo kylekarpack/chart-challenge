@@ -1,17 +1,16 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { charts } from '@/charts'
-import './chart-layout.css'
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import "./chart-layout.css";
 
 export default function ChartLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  const pathname = usePathname()
-  const currentChart = pathname.split('/').pop()
+  const pathname = usePathname();
+  const currentChart = pathname.split("/").pop();
 
   return (
     <div className="app">
@@ -23,16 +22,14 @@ export default function ChartLayout({
           <nav>
             <h3>Charts</h3>
             <ul>
-              {charts.map((chart) => (
-                <li 
+              {/* {charts.map((chart) => (
+                <li
                   key={chart.date}
-                  className={currentChart === chart.date ? 'active' : ''}
+                  className={currentChart === chart.date ? "active" : ""}
                 >
-                  <Link href={`/charts/${chart.date}`}>
-                    {chart.date}
-                  </Link>
+                  <Link href={`/charts/${chart.date}`}>{chart.date}</Link>
                 </li>
-              ))}
+              ))} */}
             </ul>
           </nav>
           {currentChart && (
@@ -42,10 +39,7 @@ export default function ChartLayout({
           )}
         </div>
       </aside>
-      <main className="main-content">
-        {children}
-      </main>
+      <main className="main-content">{children}</main>
     </div>
-  )
+  );
 }
-
