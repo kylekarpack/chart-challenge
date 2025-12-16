@@ -2,11 +2,13 @@
 
 A challenge to myself to create and explore a new chart regularly
 
+Built with Next.js, React, TypeScript, and Nivo charts.
+
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v16 or higher)
+- Node.js (v18 or higher)
 - pnpm (or npm or yarn)
 
 ### Installation
@@ -22,17 +24,32 @@ pnpm install
 Start the development server:
 
 ```bash
-pnpm start
+pnpm dev
 ```
 
-The app will be available at `http://localhost:1234`
+The app will be available at `http://localhost:3000`
 
 ### Build
 
-Create a production build:
+Create a static export build:
 
 ```bash
 pnpm run build
 ```
 
-The optimized files will be in the `dist` folder.
+The static files will be in the `out` folder, ready to be deployed to any static hosting service.
+
+### Production Server
+
+To test the production build locally:
+
+```bash
+pnpm start
+```
+
+## Project Structure
+
+- `app/` - Next.js app directory with pages and layouts
+- `src/charts/` - Individual chart components organized by date
+- `public/` - Static assets
+- `next.config.js` - Next.js configuration with static export enabled

@@ -1,11 +1,12 @@
 {
   "name": "chart-challenge",
   "version": "1.0.0",
-  "description": "A Parcel/React/TypeScript application",
-  "source": "src/index.html",
+  "description": "A Next.js/React/TypeScript application",
   "scripts": {
-    "start": "parcel",
-    "build": "parcel build"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "export": "next build"
   },
   "keywords": [],
   "author": "",
@@ -14,12 +15,13 @@
     "@nivo/core": "^0.99.0",
     "@nivo/sunburst": "^0.99.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "next": "^14.0.4"
   },
   "devDependencies": {
+    "@types/node": "^20.10.6",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
-    "parcel": "^2.11.0",
     "typescript": "^5.3.3"
   }
 }
