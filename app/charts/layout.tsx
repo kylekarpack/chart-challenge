@@ -12,6 +12,8 @@ export default function ChartLayout({
   const pathname = usePathname();
   const currentChart = pathname.split("/").pop();
 
+  console.log(children);
+
   return (
     <div className="app">
       <aside className="sidebar">
@@ -39,7 +41,9 @@ export default function ChartLayout({
           )}
         </div>
       </aside>
-      <main className="main-content">{children}</main>
+      <main className="main-content">
+        {children}
+      </main>
     </div>
   );
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { charts } from "@/charts";
 import "./page.css";
 
 export default function Home() {
@@ -19,7 +18,7 @@ export default function Home() {
         <section className="charts-grid">
           <h2>Available Charts</h2>
           <div className="chart-cards">
-            {charts.map((chart) => (
+            {/* {charts.map((chart) => (
               <Link
                 key={chart.date}
                 href={`/charts/${chart.date}`}
@@ -30,7 +29,7 @@ export default function Home() {
                 <p>{chart.description}</p>
                 <span className="chart-card-arrow">→</span>
               </Link>
-            ))}
+            ))} */}
           </div>
         </section>
 
