@@ -1,0 +1,172 @@
+.home-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #62a0f2 0%, #409cb1 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.home-container {
+  max-width: 1200px;
+  width: 100%;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  padding: 4rem;
+}
+
+.home-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.home-header h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #62a0f2 0%, #409cb1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1rem;
+}
+
+.home-header p {
+  font-size: 1.3rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+.charts-grid {
+  margin-bottom: 4rem;
+}
+
+.charts-grid h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 3px solid #409cb1;
+}
+
+.chart-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.chart-card {
+  display: block;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3d8e2 100%);
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid transparent;
+}
+
+.chart-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #62a0f2 0%, #409cb1 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.chart-card:hover::before {
+  opacity: 0.1;
+}
+
+.chart-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  border-color: #409cb1;
+}
+
+.chart-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.chart-card-date {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #409cb1;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+}
+
+.chart-card h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.75rem;
+}
+
+.chart-card p {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.chart-card-arrow {
+  display: inline-block;
+  font-size: 1.5rem;
+  color: #409cb1;
+  transition: transform 0.3s ease;
+}
+
+.chart-card:hover .chart-card-arrow {
+  transform: translateX(8px);
+}
+
+.home-info {
+  text-align: center;
+  padding: 2rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.home-info h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.home-info p {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.8;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .home-container {
+    padding: 2rem;
+  }
+
+  .home-header h1 {
+    font-size: 2.5rem;
+  }
+
+  .home-header p {
+    font-size: 1.1rem;
+  }
+
+  .chart-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
