@@ -18,17 +18,16 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #66b1ea 0%, #4b74a2 100%);
-}
+   }
 
 .app-header {
   text-align: center;
-  color: white;
+  color: #444;
   padding: 2rem;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.17);
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 

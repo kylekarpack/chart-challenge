@@ -36,9 +36,10 @@ function transformToSunburstData(treeTaxa: TreeTaxon[]): SunburstNode {
 
   // Build nodes for each taxon
   treeTaxa.forEach(item => {
+    const displayName = item.taxon.preferred_common_name || item.taxon.name;
     const node: SunburstNode = {
-      id: item.taxon.id.toString(),
-      name: item.taxon.preferred_common_name || item.taxon.name,
+      id: `${item.taxon.id}-${displayName}`, // Use taxon ID + name for unique keys
+      name: displayName,
       value: item.isLeaf ? item.count : undefined,
       children: []
     };
@@ -87,22 +88,22 @@ function transformToSunburstData(treeTaxa: TreeTaxon[]): SunburstNode {
   return rootNode || { id: "empty", name: "No Data", value: 0 };
 }
 
-export const INaturalistSunburst = () => {
-  const data = transformToSunburstData(rawData.tree_taxa);
-  console.log("Transformed data:", data);
+const data = transformToSunburstData(rawData.tree_taxa);
 
+export const INaturalistSunburst = () => {
   return (
     <>
       <ResponsiveSunburst
         data={data}
-        id="name"
+        id="id"
         value="value"
+        colors={{scheme: "pastel2"}}
         margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
         cornerRadius={2}
         enableArcLabels={true}
-        arcLabel={d => `${d.id} (${d.percentage}%)`}
-        arcLabelsSkipAngle={10}
-        arcLabelsTextColor={{ from: "color", modifiers: [["darker", 1.4]] }}
+        arcLabel={d => `${d.data.name} (${d.percentage.toFixed(1)}%)`}
+        arcLabelsSkipAngle={25}
+        arcLabelsTextColor={{ from: "color", modifiers: [["darker", 3]] }}
       />
     </>
   );
