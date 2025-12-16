@@ -1,0 +1,340 @@
+{
+  "id": "nivo",
+  "children": [
+    {
+      "id": "viz",
+      "children": [
+        {
+          "id": "stack",
+          "children": [
+            {
+              "id": "cchart",
+              "value": 31365
+            },
+            {
+              "id": "xAxis",
+              "value": 188904
+            },
+            {
+              "id": "yAxis",
+              "value": 46738
+            },
+            {
+              "id": "layers",
+              "value": 144149
+            }
+          ]
+        },
+        {
+          "id": "ppie",
+          "children": [
+            {
+              "id": "chart",
+              "children": [
+                {
+                  "id": "pie",
+                  "children": [
+                    {
+                      "id": "outline",
+                      "value": 51604
+                    },
+                    {
+                      "id": "slices",
+                      "value": 168024
+                    },
+                    {
+                      "id": "bbox",
+                      "value": 188703
+                    }
+                  ]
+                },
+                {
+                  "id": "donut",
+                  "value": 92154
+                },
+                {
+                  "id": "gauge",
+                  "value": 21322
+                }
+              ]
+            },
+            {
+              "id": "legends",
+              "value": 91675
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "colors",
+      "children": [
+        {
+          "id": "rgb",
+          "value": 113180
+        },
+        {
+          "id": "hsl",
+          "value": 51040
+        }
+      ]
+    },
+    {
+      "id": "utils",
+      "children": [
+        {
+          "id": "randomize",
+          "value": 171518
+        },
+        {
+          "id": "resetClock",
+          "value": 69481
+        },
+        {
+          "id": "noop",
+          "value": 35356
+        },
+        {
+          "id": "tick",
+          "value": 120436
+        },
+        {
+          "id": "forceGC",
+          "value": 193795
+        },
+        {
+          "id": "stackTrace",
+          "value": 158924
+        },
+        {
+          "id": "dbg",
+          "value": 128817
+        }
+      ]
+    },
+    {
+      "id": "generators",
+      "children": [
+        {
+          "id": "address",
+          "value": 104113
+        },
+        {
+          "id": "city",
+          "value": 101166
+        },
+        {
+          "id": "animal",
+          "value": 41799
+        },
+        {
+          "id": "movie",
+          "value": 75805
+        },
+        {
+          "id": "user",
+          "value": 113073
+        }
+      ]
+    },
+    {
+      "id": "set",
+      "children": [
+        {
+          "id": "clone",
+          "value": 103882
+        },
+        {
+          "id": "intersect",
+          "value": 128241
+        },
+        {
+          "id": "merge",
+          "value": 124060
+        },
+        {
+          "id": "reverse",
+          "value": 128779
+        },
+        {
+          "id": "toArray",
+          "value": 107362
+        },
+        {
+          "id": "toObject",
+          "value": 56854
+        },
+        {
+          "id": "fromCSV",
+          "value": 39363
+        },
+        {
+          "id": "slice",
+          "value": 133474
+        },
+        {
+          "id": "append",
+          "value": 30339
+        },
+        {
+          "id": "prepend",
+          "value": 43938
+        },
+        {
+          "id": "shuffle",
+          "value": 43431
+        },
+        {
+          "id": "pick",
+          "value": 39327
+        },
+        {
+          "id": "plouc",
+          "value": 90162
+        }
+      ]
+    },
+    {
+      "id": "text",
+      "children": [
+        {
+          "id": "trim",
+          "value": 195003
+        },
+        {
+          "id": "slugify",
+          "value": 43692
+        },
+        {
+          "id": "snakeCase",
+          "value": 116514
+        },
+        {
+          "id": "camelCase",
+          "value": 147130
+        },
+        {
+          "id": "repeat",
+          "value": 70942
+        },
+        {
+          "id": "padLeft",
+          "value": 156733
+        },
+        {
+          "id": "padRight",
+          "value": 19668
+        },
+        {
+          "id": "sanitize",
+          "value": 17761
+        },
+        {
+          "id": "ploucify",
+          "value": 41187
+        }
+      ]
+    },
+    {
+      "id": "misc",
+      "children": [
+        {
+          "id": "greetings",
+          "children": [
+            {
+              "id": "hey",
+              "value": 163976
+            },
+            {
+              "id": "HOWDY",
+              "value": 55154
+            },
+            {
+              "id": "aloha",
+              "value": 80929
+            },
+            {
+              "id": "AHOY",
+              "value": 180917
+            }
+          ]
+        },
+        {
+          "id": "other",
+          "value": 119857
+        },
+        {
+          "id": "path",
+          "children": [
+            {
+              "id": "pathA",
+              "value": 116953
+            },
+            {
+              "id": "pathB",
+              "children": [
+                {
+                  "id": "pathB1",
+                  "value": 168345
+                },
+                {
+                  "id": "pathB2",
+                  "value": 112589
+                },
+                {
+                  "id": "pathB3",
+                  "value": 30431
+                },
+                {
+                  "id": "pathB4",
+                  "value": 67271
+                }
+              ]
+            },
+            {
+              "id": "pathC",
+              "children": [
+                {
+                  "id": "pathC1",
+                  "value": 91496
+                },
+                {
+                  "id": "pathC2",
+                  "value": 44279
+                },
+                {
+                  "id": "pathC3",
+                  "value": 181442
+                },
+                {
+                  "id": "pathC4",
+                  "value": 114408
+                },
+                {
+                  "id": "pathC5",
+                  "value": 66694
+                },
+                {
+                  "id": "pathC6",
+                  "value": 126742
+                },
+                {
+                  "id": "pathC7",
+                  "value": 101759
+                },
+                {
+                  "id": "pathC8",
+                  "value": 21509
+                },
+                {
+                  "id": "pathC9",
+                  "value": 48759
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

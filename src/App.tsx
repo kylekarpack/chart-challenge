@@ -1,23 +1,19 @@
-import React, { useState } from 'react';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import { INaturalistSunburst } from "./charts/2026-12-06";
 
 const App: React.FC = () => {
-  const [count, setCount] = useState(0);
-
   return (
     <div className="app">
       <header className="app-header">
         <h1>Chart Challenge</h1>
-        <p>Welcome to your Parcel + React + TypeScript app!</p>
-        <div className="counter">
-          <button onClick={() => setCount(count - 1)}>-</button>
-          <span>{count}</span>
-          <button onClick={() => setCount(count + 1)}>+</button>
-        </div>
+        Currently on chart: 2026-12-16
       </header>
+      <div className="chart-container">
+        <INaturalistSunburst />
+      </div>
     </div>
   );
 };
 
 export default App;
-
