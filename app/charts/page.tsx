@@ -25,28 +25,31 @@ export default function ChartsPage() {
               </p>
             </div>
           ) : (
-            charts.map((post: Chart) => (
+            charts.map((chart: Chart) => (
               <article
-                key={post.slug}
+                key={chart.slug}
                 className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-6"
               >
-                <Link href={`/charts/${post.slug}`}>
+                <Link href={`/charts/${chart.slug}`}>
                   <h2 className="text-2xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
-                    {post.title}
+                    {chart.title}
                   </h2>
                 </Link>
                 <time className="text-sm text-gray-500 mb-3 block">
-                  {new Date(post.publishedAt).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
+                  {new Date(`${chart.publishedAt}T00:00:00`).toLocaleDateString(
+                    "en-US",
+                    {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    }
+                  )}
                 </time>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  {post.summary}
+                  {chart.summary}
                 </p>
                 <Link
-                  href={`/charts/${post.slug}`}
+                  href={`/charts/${chart.slug}`}
                   className="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center"
                 >
                   Read more

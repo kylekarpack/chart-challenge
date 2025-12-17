@@ -59,11 +59,14 @@ export default async function ChartPage({
             {chart.title}
           </h1>
           <time className="text-gray-500 text-lg">
-            {new Date(chart.publishedAt).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
+            {new Date(`${chart.publishedAt}T00:00:00`).toLocaleDateString(
+              "en-US",
+              {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              }
+            )}
           </time>
         </header>
 
