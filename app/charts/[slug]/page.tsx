@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getAllCharts, getChartBySlug } from "@/lib/charts";
 import { useMDXComponents } from "@/app/mdx-components";
 import { INaturalistSunburst } from "@/content/charts/inaturalist-sunburst/INaturalistSunburst";
+import { HikeHistogram } from "@/content/charts/hike-histogram/HikeHistogram";
 
 export async function generateStaticParams() {
   const charts = getAllCharts();
@@ -18,14 +19,15 @@ export default async function ChartPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getChartBySlug(slug);
+  const chart = getChartBySlug(slug);
 
-  if (!post) {
+  if (!chart) {
     notFound();
   }
 
   const components = {
     ...useMDXComponents(),
+    HikeHistogram,
     INaturalistSunburst, // TODO: Remove this once we have a more general component
   };
 
@@ -54,10 +56,10 @@ export default async function ChartPage({
 
         <header className="mb-8">
           <h1 className="text-5xl font-bold text-gray-900 mb-4">
-            {post.title}
+            {chart.title}
           </h1>
           <time className="text-gray-500 text-lg">
-            {new Date(post.publishedAt).toLocaleDateString("en-US", {
+            {new Date(chart.publishedAt).toLocaleDateString("en-US", {
               year: "numeric",
               month: "long",
               day: "numeric",
@@ -66,7 +68,7 @@ export default async function ChartPage({
         </header>
 
         <div className="prose prose-lg max-w-none bg-white rounded-lg shadow-md p-8">
-          <MDXRemote source={post.content} components={components} />
+          <MDXRemote source={chart.content} components={components} />
         </div>
       </article>
     </div>
