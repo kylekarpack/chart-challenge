@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
-import { getAllCharts, getPostBySlug } from "@/lib/charts";
+import { getAllCharts, getChartBySlug } from "@/lib/charts";
 import { useMDXComponents } from "@/app/mdx-components";
 import { INaturalistSunburst } from "@/content/charts/inaturalist-sunburst/INaturalistSunburst";
 
@@ -18,7 +18,7 @@ export default async function ChartPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = getChartBySlug(slug);
 
   if (!post) {
     notFound();
@@ -26,7 +26,7 @@ export default async function ChartPage({
 
   const components = {
     ...useMDXComponents(),
-    INaturalistSunburst,
+    INaturalistSunburst, // TODO: Remove this once we have a more general component
   };
 
   return (

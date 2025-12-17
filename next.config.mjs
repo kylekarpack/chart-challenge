@@ -8,15 +8,6 @@ const nextConfig = {
     unoptimized: true,
   },
   trailingSlash: true,
-  redirects: async () => {
-    return [
-      {
-        source: "/",
-        destination: "/charts",
-        permanent: true,
-      },
-    ];
-  },
 };
 
 const withMDX = createMDX({

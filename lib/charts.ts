@@ -3,7 +3,7 @@ import path from "path";
 import matter from "gray-matter";
 import { globSync } from "glob";
 
-const postsDirectory = path.join(process.cwd(), "content/charts");
+const chartsDirectory = path.join(process.cwd(), "content/charts");
 
 export interface Chart {
   slug: string;
@@ -15,18 +15,18 @@ export interface Chart {
 
 export function getAllCharts(): Chart[] {
   // Ensure directory exists
-  if (!fs.existsSync(postsDirectory)) {
+  if (!fs.existsSync(chartsDirectory)) {
     return [];
   }
 
   // Use glob to find all MDX files recursively
-  const pattern = path.join(postsDirectory, "**/*.mdx");
+  const pattern = path.join(chartsDirectory, "**/*.mdx");
   const files = globSync(pattern, { windowsPathsNoEscape: true });
   
   const allCharts = files
     .map((fullPath: string) => {
-      // Get relative path from postsDirectory and remove .mdx extension
-      const relativePath = path.relative(postsDirectory, fullPath);
+      // Get relative path from chartsDirectory and remove .mdx extension
+      const relativePath = path.relative(chartsDirectory, fullPath);
       let slug = relativePath.replace(/\.mdx$/, "").replace(/\\/g, "/");
       
       // Handle index files: folder/index.mdx -> folder
@@ -56,16 +56,16 @@ export function getAllCharts(): Chart[] {
   });
 }
 
-export function getPostBySlug(slug: string): Chart | null {
+export function getChartBySlug(slug: string): Chart | null {
   // Normalize slug to handle both forward and backward slashes
   const normalizedSlug = slug.replace(/\\/g, "/");
   
   // Try direct file path first (e.g., slug.mdx)
-  let fullPath = path.join(postsDirectory, `${normalizedSlug}.mdx`);
+  let fullPath = path.join(chartsDirectory, `${normalizedSlug}.mdx`);
   
   // If not found, try as an index file (e.g., slug/index.mdx)
   if (!fs.existsSync(fullPath)) {
-    fullPath = path.join(postsDirectory, normalizedSlug, "index.mdx");
+    fullPath = path.join(chartsDirectory, normalizedSlug, "index.mdx");
     if (!fs.existsSync(fullPath)) {
       return null;
     }
