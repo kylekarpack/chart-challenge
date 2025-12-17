@@ -1,0 +1,86 @@
+---
+title: 'Building Modern Web Apps with Next.js'
+publishedAt: '2024-12-16'
+summary: 'Explore the powerful features of Next.js and learn how to build performant, scalable web applications.'
+---
+
+# Building Modern Web Apps with Next.js
+
+Next.js has become the go-to framework for building React applications. Let's explore what makes it so special.
+
+## What is Next.js?
+
+Next.js is a **React framework** that provides:
+
+- Server-side rendering (SSR)
+- Static site generation (SSG)
+- API routes
+- File-based routing
+- Automatic code splitting
+- Built-in optimization
+
+## Key Features
+
+### File-Based Routing
+
+One of my favorite features is the intuitive file-based routing system. Create a file in the `app` directory, and it automatically becomes a route:
+
+```
+app/
+  page.tsx          → /
+  about/
+    page.tsx        → /about
+  blog/
+    [slug]/
+      page.tsx      → /blog/:slug
+```
+
+### Server Components
+
+React Server Components are the default in the App Router. They enable:
+
+- Zero bundle size for server-only code
+- Direct database access
+- Better performance
+- Automatic static optimization
+
+### Static Site Generation
+
+Generate static pages at build time for maximum performance:
+
+```typescript
+export async function generateStaticParams() {
+  const posts = await getPosts();
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
+}
+```
+
+## Performance Optimization
+
+Next.js includes several built-in optimizations:
+
+1. **Automatic Image Optimization**: The `Image` component optimizes images on-demand
+2. **Font Optimization**: Automatically optimize and load fonts
+3. **Script Optimization**: Control loading of third-party scripts
+4. **Bundle Analysis**: Understand what's in your bundle
+
+## Getting Started
+
+Create a new Next.js app with:
+
+```bash
+npx create-next-app@latest my-app
+cd my-app
+npm run dev
+```
+
+That's it! You now have a fully-featured Next.js application running locally.
+
+## Conclusion
+
+Next.js combines the best of static sites and dynamic applications. Whether you're building a blog, an e-commerce site, or a complex web app, Next.js has you covered.
+
+*Happy coding!*
+

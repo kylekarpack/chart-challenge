@@ -1,0 +1,70 @@
+import { notFound } from "next/navigation";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import Link from "next/link";
+import { getAllCharts, getPostBySlug } from "@/lib/charts";
+import { useMDXComponents } from "@/app/mdx-components";
+
+export async function generateStaticParams() {
+  const charts = getAllCharts();
+  return charts.map((post) => ({
+    slug: post.slug,
+  }));
+}
+
+export default async function ChartPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
+
+  if (!post) {
+    notFound();
+  }
+
+  const components = useMDXComponents();
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+      <article className="max-w-3xl mx-auto">
+        <Link
+          href="/charts"
+          className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-8 font-medium"
+        >
+          <svg
+            className="w-4 h-4 mr-1"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          Back to Charts
+        </Link>
+
+        <header className="mb-8">
+          <h1 className="text-5xl font-bold text-gray-900 mb-4">
+            {post.title}
+          </h1>
+          <time className="text-gray-500 text-lg">
+            {new Date(post.publishedAt).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </time>
+        </header>
+
+        <div className="prose prose-lg max-w-none bg-white rounded-lg shadow-md p-8">
+          <MDXRemote source={post.content} components={components} />
+        </div>
+      </article>
+    </div>
+  );
+}
