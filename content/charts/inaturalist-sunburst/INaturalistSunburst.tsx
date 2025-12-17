@@ -99,7 +99,7 @@ export const INaturalistSunburst = () => {
       id="id"
       value="value"
       colors={{ scheme: "pastel2" }}
-      cornerRadius={4}
+      cornerRadius={2}
       enableArcLabels={true}
       arcLabel="formattedValue"
       arcLabelsSkipAngle={15}

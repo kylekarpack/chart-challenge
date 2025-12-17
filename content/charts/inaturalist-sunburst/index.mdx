@@ -5,10 +5,18 @@ summary: "A sunburst chart of my iNaturalist observations in 2025."
 ---
 
 Below is a sunburst chart of my iNaturalist observations in 2025.
-It's made with [Nivo](https://nivo.rocks/) and tracks everything I logged in 2025.
+It's made with [Nivo](https://nivo.rocks/) and tracks everything that I identified in 2025.
+Observed taxa are arranged as a hierarchical diagram. The base of the hierarchy is at the center, starting with "Life" and ending with species at the outer edges. The size of each arc is proportional to the number of observations of that taxon.
+
+Hover over each arc to see the details, including the number of observations of that taxon.
 
 import { INaturalistSunburst } from "./INaturalistSunburst";
 
 <div className="min-h-[800px] w-full">
   <INaturalistSunburst />
 </div>
+
+Some issues and observations I from building this chart:
+ - The data from iNaturalist is not in a format that is easy to use with Nivo. I had to transform it into a hierarchical structure, which I do at runtime
+ - Nivo's labeling support isn't great, and labels couldn't wrap around the arcs nicely
+ - A tree map may work better for this data, but I wanted to try something different
