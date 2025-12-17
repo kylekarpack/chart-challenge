@@ -3,7 +3,6 @@
 import * as Plot from "@observablehq/plot";
 import { useEffect, useRef } from "react";
 import data from "../hike-histogram/data.json";
-import * as d3 from "d3";
 
 // Add year to each hike for faceting
 const enrichedData = data.map((hike) => ({
@@ -35,7 +34,7 @@ export const HikeHistogram = () => {
         Plot.axisY({ anchor: "left", label: "Count" }),
         Plot.frame(),
       ],
-      fx: { label: "Year", interval: d3.utcYear.every(2) },
+      fx: { label: "Year" },
     });
     containerRef.current && containerRef.current.append(plot);
     return () => plot.remove();

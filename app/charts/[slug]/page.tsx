@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
 import { getAllCharts, getChartBySlug } from "@/lib/charts";
-import { useMDXComponents } from "@/app/mdx-components";
+import { getMDXComponents } from "@/app/mdx-components";
 import { INaturalistSunburst } from "@/content/charts/inaturalist-sunburst/INaturalistSunburst";
 import { HikeHistogram } from "@/content/charts/hike-histogram/HikeHistogram";
 
@@ -26,7 +26,7 @@ export default async function ChartPage({
   }
 
   const components = {
-    ...useMDXComponents(),
+    ...getMDXComponents(),
     HikeHistogram,
     INaturalistSunburst, // TODO: Remove this once we have a more general component
   };
