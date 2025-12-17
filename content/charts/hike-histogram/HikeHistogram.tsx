@@ -17,12 +17,14 @@ const Histogram = ({
   bucketBy,
   bucketByLabel,
   xAxisType = "linear",
+  yAxisType = "sqrt",
   title = "",
   extraMarks = [],
 }: {
   bucketBy: keyof (typeof enrichedData)[0];
   bucketByLabel: string;
-  xAxisType?: "linear" | "time" | "log" | "sqrt";
+  xAxisType?: Plot.ScaleType;
+  yAxisType?: Plot.ScaleType;
   title?: string;
   extraMarks?: Plot.Mark[];
 }) => {
@@ -35,6 +37,7 @@ const Histogram = ({
       height: 250,
       y: {
         grid: true,
+        type: yAxisType,
       },
       x: {
         type: xAxisType,
@@ -136,6 +139,7 @@ export const HikeHistogram = () => {
         bucketBy="date"
         bucketByLabel="Year"
         xAxisType="time"
+        yAxisType="linear"
         extraMarks={[
           Plot.tip(["I had a baby this year and it definitely impacted my hiking!"], {
             x: new Date("2024-07-07"),
