@@ -1,5 +1,5 @@
-import Link from 'next/link';
-import { getAllCharts, type Chart } from '@/lib/charts';
+import Link from "next/link";
+import { getAllCharts, type Chart } from "@/lib/charts";
 
 export default function ChartsPage() {
   const charts = getAllCharts();
@@ -8,17 +8,21 @@ export default function ChartsPage() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">Chart Challenge</h1>
+          <h1 className="text-5xl font-bold text-gray-900 mb-4">
+            Chart Challenge
+          </h1>
           <p className="text-xl text-gray-600">
-          A personal challenge to create and explore new data visualizations
-          regularly
+            A personal challenge to create and explore new data visualizations
+            regularly
           </p>
         </div>
 
         <div className="space-y-8">
           {charts.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">No charts yet. Check back soon!</p>
+              <p className="text-gray-500 text-lg">
+                No charts yet. Check back soon!
+              </p>
             </div>
           ) : (
             charts.map((post: Chart) => (
@@ -32,10 +36,10 @@ export default function ChartsPage() {
                   </h2>
                 </Link>
                 <time className="text-sm text-gray-500 mb-3 block">
-                  {new Date(post.publishedAt).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
+                  {new Date(post.publishedAt).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
                   })}
                 </time>
                 <p className="text-gray-700 leading-relaxed mb-4">
@@ -68,4 +72,3 @@ export default function ChartsPage() {
     </div>
   );
 }
-
