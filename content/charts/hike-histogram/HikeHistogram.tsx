@@ -8,6 +8,7 @@ import data from "./data.json";
 const enrichedData = data.map((hike) => ({
   ...hike,
   distanceInMiles: hike.distance / 1000 / 1.60934,
+  ascent: hike.ascent * 3.28084,
   timeInHours: hike.time / 3600,
   date: new Date(hike.date),
 }));
@@ -42,7 +43,8 @@ const Histogram = ({
         Plot.rectY(enrichedData, Plot.binX({ y: "count" }, { x: bucketBy })),
         Plot.axisX({ anchor: "bottom", label: bucketByLabel }),
         Plot.axisY({ anchor: "left", label: "Count" }),
-        ...extraMarks,
+        Plot.ruleY([0]),
+        ...extraMarks as any[],
       ],
     });
     containerRef.current && containerRef.current.append(plot);
@@ -100,7 +102,8 @@ const ScatterPlot = () => {
         }),
         Plot.axisX({ anchor: "bottom", label: "Distance (miles)" }),
         Plot.axisY({ anchor: "left", label: "Elevation (feet)" }),
-        Plot.frame(),
+        Plot.ruleY([0]),
+        Plot.ruleX([0]),
       ],
     });
     containerRef.current && containerRef.current.append(plot);
