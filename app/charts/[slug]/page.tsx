@@ -3,11 +3,12 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
 import { getAllCharts, getPostBySlug } from "@/lib/charts";
 import { useMDXComponents } from "@/app/mdx-components";
+import { INaturalistSunburst } from "@/content/charts/inaturalist-sunburst/INaturalistSunburst";
 
 export async function generateStaticParams() {
   const charts = getAllCharts();
-  return charts.map((post) => ({
-    slug: post.slug,
+  return charts.map((chart) => ({
+    slug: chart.slug,
   }));
 }
 
@@ -23,11 +24,14 @@ export default async function ChartPage({
     notFound();
   }
 
-  const components = useMDXComponents();
+  const components = {
+    ...useMDXComponents(),
+    INaturalistSunburst,
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-      <article className="max-w-3xl mx-auto">
+      <article className="max-w-6xl mx-auto">
         <Link
           href="/charts"
           className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-8 font-medium"

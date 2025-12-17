@@ -22,14 +22,17 @@ export function getAllCharts(): Chart[] {
   // Use glob to find all MDX files recursively
   const pattern = path.join(postsDirectory, "**/*.mdx");
   const files = globSync(pattern, { windowsPathsNoEscape: true });
-
-  console.log(files);
   
-  const allPostsData = files
+  const allCharts = files
     .map((fullPath: string) => {
       // Get relative path from postsDirectory and remove .mdx extension
       const relativePath = path.relative(postsDirectory, fullPath);
-      const slug = relativePath.replace(/\.mdx$/, "").replace(/\\/g, "/");
+      let slug = relativePath.replace(/\.mdx$/, "").replace(/\\/g, "/");
+      
+      // Handle index files: folder/index.mdx -> folder
+      if (slug.endsWith("/index")) {
+        slug = slug.replace(/\/index$/, "");
+      }
       
       const fileContents = fs.readFileSync(fullPath, "utf8");
       const { data, content } = matter(fileContents);
@@ -43,8 +46,8 @@ export function getAllCharts(): Chart[] {
       };
     });
 
-  // Sort posts by date
-  return allPostsData.sort((a: Chart, b: Chart) => {
+  // Sort charts by date
+  return allCharts.sort((a: Chart, b: Chart) => {
     if (a.publishedAt < b.publishedAt) {
       return 1;
     } else {
@@ -56,10 +59,16 @@ export function getAllCharts(): Chart[] {
 export function getPostBySlug(slug: string): Chart | null {
   // Normalize slug to handle both forward and backward slashes
   const normalizedSlug = slug.replace(/\\/g, "/");
-  const fullPath = path.join(postsDirectory, `${normalizedSlug}.mdx`);
-
+  
+  // Try direct file path first (e.g., slug.mdx)
+  let fullPath = path.join(postsDirectory, `${normalizedSlug}.mdx`);
+  
+  // If not found, try as an index file (e.g., slug/index.mdx)
   if (!fs.existsSync(fullPath)) {
-    return null;
+    fullPath = path.join(postsDirectory, normalizedSlug, "index.mdx");
+    if (!fs.existsSync(fullPath)) {
+      return null;
+    }
   }
 
   const fileContents = fs.readFileSync(fullPath, "utf8");
