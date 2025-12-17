@@ -2,8 +2,6 @@
 
 A challenge to myself to create and explore a new chart regularly
 
-Built with Next.js, React, TypeScript, and Nivo charts.
-
 ## Getting Started
 
 ### Prerequisites
@@ -46,10 +44,3 @@ To test the production build locally:
 ```bash
 pnpm start
 ```
-
-## Project Structure
-
-- `app/` - Next.js app directory with pages and layouts
-- `src/charts/` - Individual chart components organized by date
-- `public/` - Static assets
-- `next.config.js` - Next.js configuration with static export enabled
