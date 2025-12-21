@@ -10,7 +10,7 @@ const enrichedData = data.map((hike) => ({
   ...hike,
   distance_miles: hike.distance / 1000 / 1.60934,
   year: new Date(hike.date).getFullYear().toString(),
-  date: new Date(hike.date)
+  date: new Date(hike.date),
 }));
 
 export const HikeHistogram = () => {
@@ -31,11 +31,15 @@ export const HikeHistogram = () => {
           enrichedData,
           Plot.binX({ y: "count", fill: "count" }, { x: "distance_miles" })
         ),
-        Plot.axisX({ anchor: "bottom", label: "Distance (miles)", tickSpacing: 20 }),
+        Plot.axisX({
+          anchor: "bottom",
+          label: "Distance (miles)",
+          tickSpacing: 20,
+        }),
         Plot.axisY({ anchor: "left", label: "Count" }),
         Plot.frame(),
       ],
-      fx: { label: "Year", interval: d3.utcYear.every(2) },
+      fx: { label: "Year", interval: d3.utcYear.every(2) as any },
     });
     containerRef.current && containerRef.current.append(plot);
     return () => plot.remove();
