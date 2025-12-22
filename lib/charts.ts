@@ -22,18 +22,18 @@ export function getAllCharts(): Chart[] {
   // Use glob to find all MDX files recursively
   const pattern = path.join(chartsDirectory, "**/*.mdx");
   const files = globSync(pattern, { windowsPathsNoEscape: true });
-  
+
   const allCharts = files
     .map((fullPath: string) => {
       // Get relative path from chartsDirectory and remove .mdx extension
       const relativePath = path.relative(chartsDirectory, fullPath);
       let slug = relativePath.replace(/\.mdx$/, "").replace(/\\/g, "/");
-      
+
       // Handle index files: folder/index.mdx -> folder
       if (slug.endsWith("/index")) {
         slug = slug.replace(/\/index$/, "");
       }
-      
+
       const fileContents = fs.readFileSync(fullPath, "utf8");
       const { data, content } = matter(fileContents);
 
@@ -42,9 +42,11 @@ export function getAllCharts(): Chart[] {
         title: data.title || "",
         publishedAt: data.publishedAt || "",
         summary: data.summary || "",
+        hidden: data.hidden ?? false,
         content,
       };
-    });
+    })
+    .filter((el) => !el.hidden);
 
   // Sort charts by date
   return allCharts.sort((a: Chart, b: Chart) => {
@@ -59,10 +61,10 @@ export function getAllCharts(): Chart[] {
 export function getChartBySlug(slug: string): Chart | null {
   // Normalize slug to handle both forward and backward slashes
   const normalizedSlug = slug.replace(/\\/g, "/");
-  
+
   // Try direct file path first (e.g., slug.mdx)
   let fullPath = path.join(chartsDirectory, `${normalizedSlug}.mdx`);
-  
+
   // If not found, try as an index file (e.g., slug/index.mdx)
   if (!fs.existsSync(fullPath)) {
     fullPath = path.join(chartsDirectory, normalizedSlug, "index.mdx");

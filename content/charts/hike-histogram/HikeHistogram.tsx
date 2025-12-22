@@ -46,7 +46,7 @@ const Histogram = ({
         Plot.axisX({ anchor: "bottom", label: bucketByLabel }),
         Plot.axisY({ anchor: "left", label: "Count" }),
         Plot.ruleY([0]),
-        ...extraMarks as any[],
+        ...(extraMarks as any[]),
       ],
     });
     containerRef.current && containerRef.current.append(plot);
@@ -63,6 +63,7 @@ const ScatterPlot = () => {
     const plot = Plot.plot({
       width: 1000,
       height: 500,
+      marginLeft: 60,
       y: {
         grid: true,
         type: "sqrt",
@@ -140,11 +141,14 @@ export const HikeHistogram = () => {
         xAxisType="time"
         yAxisType="linear"
         extraMarks={[
-          Plot.tip(["I had a baby this year and it definitely impacted my hiking!"], {
-            x: new Date("2024-07-07"),
-            dy: 20,
-            anchor: "bottom",
-          }),
+          Plot.tip(
+            ["I had a baby this year and it definitely impacted my hiking!"],
+            {
+              x: new Date("2024-07-07"),
+              dy: 20,
+              anchor: "bottom",
+            }
+          ),
         ]}
       />
       <div className="mt-8 mb-4">
