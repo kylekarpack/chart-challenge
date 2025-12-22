@@ -4,7 +4,6 @@ import * as Plot from "@observablehq/plot";
 import { useEffect, useRef } from "react";
 import data from "./data.json";
 
-// Add year to each hike for faceting
 const enrichedData = data.map((hike) => ({
   ...hike,
   distanceInMiles: hike.distance / 1000 / 1.60934,

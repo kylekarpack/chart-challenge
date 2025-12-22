@@ -10,8 +10,11 @@ Curious to see some stats on my hikes, I created some histograms to visualize va
 import { HikeHistogram } from "./HikeHistogram";
 
 <div className="min-h-[800px] w-full">
-  <HikeHistogram />
+  <HikeHistogramSmallMultiples />
 </div>
 
 Things I learned:
- - Histograms are pretty neat
+
+- There are some considerations that need to be made when jamming this much infomation into a single page
+  - Axis labels needed to be re-worked
+  - This approach wouldn't work for many years of data. Imagine if I had been tracking for 20 or 30 years. I'd need to wrap the charts, or facet by multi-year time periods
