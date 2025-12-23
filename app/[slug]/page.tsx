@@ -28,8 +28,8 @@ export default async function ChartPage({
 
   const components = {
     ...getMDXComponents(),
-    HikeHistogram,
     HikeHistogramSmallMultiples,
+    HikeHistogram,
     INaturalistSunburst, // TODO: Remove this once we have a more general component
   };
 
@@ -37,15 +37,13 @@ export default async function ChartPage({
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <article className="max-w-6xl mx-auto">
         <Link
-          href="/charts"
-          className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-8 font-medium"
-        >
+          href="/"
+          className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-8 font-medium">
           <svg
             className="w-4 h-4 mr-1"
             fill="none"
             stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+            viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
