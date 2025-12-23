@@ -1,0 +1,21 @@
+---
+title: "Hiking Histograms"
+publishedAt: "2025-12-22"
+summary: "Histograms of various hiking metrics."
+---
+
+I've been hiking a fair bit this decade, and I've been tracking my hikes with Gaia GPS.
+Curious to see some stats on my hikes, I created some histograms to visualize various metrics.
+
+All charts are made with [Observable Plot](https://observablehq.com/plot).
+
+import { HikeHistogram } from "./HikeHistogram";
+
+<div className="min-h-[800px] w-full mt-12">
+  <HikeHistogram />
+</div>
+
+Things I learned:
+ - Axis scale for histograms can be tricky, especially when data doesn't follow a normal distribution
+ - Most of my hikes were pretty easy!
+ - Charts made in Observable Plot look really nice out-of-the-box

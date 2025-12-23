@@ -49,6 +49,6 @@ const components: MDXComponents = {
   em: ({ children }: { children?: React.ReactNode }) => <em className="italic">{children}</em>,
 };
 
-export function useMDXComponents(): MDXComponents {
+export function getMDXComponents(): MDXComponents {
   return components;
 }
