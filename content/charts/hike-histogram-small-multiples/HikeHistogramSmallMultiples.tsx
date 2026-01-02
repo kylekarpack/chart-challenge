@@ -10,6 +10,7 @@ const enrichedData = data.map((hike) => ({
   ascent: hike.ascent * 3.28084,
   timeInHours: hike.time / 3600,
   date: new Date(hike.date),
+  month: new Date(hike.date).getMonth() + 1,
   year: new Date(hike.date).getFullYear().toString(),
 }));
 
@@ -41,7 +42,12 @@ const Histogram = ({
       },
       marks: [
         Plot.rectY(enrichedData, Plot.binX({ y: "count" }, { x: bucketBy })),
-        Plot.axisX({ anchor: "bottom", label: bucketByLabel, tickSpacing: 20, tickFormat: "~s" }),
+        Plot.axisX({
+          anchor: "bottom",
+          label: bucketByLabel,
+          tickSpacing: 20,
+          tickFormat: "~s",
+        }),
         Plot.axisY({ anchor: "left", label: "Count" }),
         Plot.frame({ strokeWidth: 0.5 }),
       ],
@@ -61,6 +67,7 @@ const ScatterPlot = () => {
     const plot = Plot.plot({
       width: 1000,
       height: 400,
+      marginLeft: 60,
       facet: {
         data: enrichedData,
         x: "year",
@@ -116,6 +123,112 @@ const ScatterPlot = () => {
   return <div ref={containerRef} />;
 };
 
+const ScatterPlotSingle = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const plot = Plot.plot({
+      width: 1000,
+      height: 550,
+      marginLeft: 60,
+      marginTop: 40,
+      y: {
+        grid: true,
+        type: "sqrt",
+      },
+      x: {
+        grid: true,
+        type: "time",
+      },
+      color: {
+        scheme: "Viridis",
+        legend: true,
+        label: "Ascent (feet)",
+      },
+      marks: [
+        Plot.circle(enrichedData, {
+          x: "date",
+          y: "distanceInMiles",
+          fill: "ascent",
+          fillOpacity: 0.75,
+          r: "ascent",
+          stroke: "rgba(0, 0, 0, 0.4)",
+          tip: {
+            format: {
+              x: false,
+              y: false,
+              fill: false,
+              r: false,
+              Trail: true,
+              Distance: (d) => `${d.toFixed(1)} miles`,
+              Elevation: (d) => `${d.toFixed(0)} ft`,
+              Time: (d) => `${d.toFixed(1)} hrs`,
+            },
+          },
+          channels: {
+            Trail: "title",
+            Time: "timeInHours",
+            Distance: "distanceInMiles",
+            Elevation: "ascent",
+          },
+        }),
+        Plot.axisX({ anchor: "bottom", label: "Date" }),
+        Plot.axisY({ anchor: "left", label: "Distance (miles)" }),
+        Plot.frame(),
+      ],
+    });
+    containerRef.current && containerRef.current.append(plot);
+    return () => plot.remove();
+  }, []);
+
+  return <div ref={containerRef} />;
+};
+
+const MovingAverage = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const plot = Plot.plot({
+      color: { scheme: "BuRd" },
+      marks: [
+        Plot.ruleY([0]),
+        Plot.areaY(
+          enrichedData,
+          Plot.windowY(
+            {
+              k: Infinity,
+              reduce: "sum",
+            },
+            {
+              x: "date",
+              y: "distanceInMiles",
+              curve: "basis",
+            }
+          )
+        ),
+        // Plot.lineY(
+        //   enrichedData,
+        //   Plot.windowY(
+        //     {
+        //       k: Infinity,
+        //       reduce: "sum",
+        //     },
+        //     {
+        //       x: "date",
+        //       y: "ascent",
+        //       curve: "basis",
+        //     }
+        //   )
+        // ),
+      ],
+    });
+    containerRef.current && containerRef.current.append(plot);
+    return () => plot.remove();
+  }, []);
+
+  return <div ref={containerRef} />;
+};
+
 export const HikeHistogramSmallMultiples = () => {
   return (
     <div>
@@ -140,6 +253,14 @@ export const HikeHistogramSmallMultiples = () => {
         years easy to do at a glance.
       </div>
       <ScatterPlot />
+
+      <div className="mt-8 mb-4">
+        But it might also just be better as a single plot:
+      </div>
+      <ScatterPlotSingle />
+
+      <div className="mt-8 mb-4">Moving average:</div>
+      <MovingAverage />
     </div>
   );
 };
