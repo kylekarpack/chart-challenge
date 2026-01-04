@@ -3,6 +3,7 @@
 import * as Plot from "@observablehq/plot";
 import { useEffect, useRef } from "react";
 import data from "../hike-histogram/data.json";
+import Link from "next/link";
 
 const enrichedData = data.map((hike) => ({
   ...hike,
@@ -189,6 +190,7 @@ const MovingAverage = () => {
 
   useEffect(() => {
     const plot = Plot.plot({
+      width: 1000,
       color: { scheme: "BuRd" },
       marks: [
         Plot.ruleY([0]),
@@ -206,20 +208,6 @@ const MovingAverage = () => {
             }
           )
         ),
-        // Plot.lineY(
-        //   enrichedData,
-        //   Plot.windowY(
-        //     {
-        //       k: Infinity,
-        //       reduce: "sum",
-        //     },
-        //     {
-        //       x: "date",
-        //       y: "ascent",
-        //       curve: "basis",
-        //     }
-        //   )
-        // ),
       ],
     });
     containerRef.current && containerRef.current.append(plot);
@@ -232,6 +220,16 @@ const MovingAverage = () => {
 export const HikeHistogramSmallMultiples = () => {
   return (
     <div>
+      <h1>Facets</h1>
+      <p>
+        <Link href="https://observablehq.com/plot/features/facets">Facets</Link>{" "}
+        producing{" "}
+        <Link href="https://en.wikipedia.org/wiki/Small_multiple">
+          small multiple charts
+        </Link>{" "}
+        were a fun one to start with. Faceting by year probably doesn't make the
+        most sense, but I didn't have any other categories in this data.
+      </p>
       <Histogram
         title="Hikes by Distance"
         bucketBy="distanceInMiles"
@@ -253,13 +251,11 @@ export const HikeHistogramSmallMultiples = () => {
         years easy to do at a glance.
       </div>
       <ScatterPlot />
-
       <div className="mt-8 mb-4">
         But it might also just be better as a single plot:
       </div>
       <ScatterPlotSingle />
-
-      <div className="mt-8 mb-4">Moving average:</div>
+      <div className="mt-8 mb-4">Cumulative total of hiking miles using :</div>
       <MovingAverage />
     </div>
   );
