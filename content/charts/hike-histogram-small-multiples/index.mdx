@@ -1,21 +1,21 @@
 ---
-title: "Hiking Histograms (Small Multiples)"
+title: "Hiking Visualizations with Observable Plot Features"
 publishedAt: "2026-01-01"
-summary: "Small multiples of histograms of various hiking metrics."
-hidden: true
+summary: "Various hiking metrics visualized using a variety of different features in Observable Plot."
 ---
 
-I've been hiking a lot this decade, and I've been tracking my hikes with Gaia GPS.
-Curious to see some stats on my hikes, I created some histograms to visualize various metrics.
-
-import { HikeHistogram } from "./HikeHistogram";
+import { HikeHistogramSmallMultiples } from "./HikeHistogramSmallMultiples";
 
 <div className="min-h-[800px] w-full">
+  The primary purpose of this edition is to experiment with some advanced features of Observable Plot.
   <HikeHistogramSmallMultiples />
 </div>
 
 Things I learned:
 
-- There are some considerations that need to be made when jamming this much infomation into a single page
+- For small multiples charts, there are some considerations that need to be made when jamming this much infomation into a single page
   - Axis labels needed to be re-worked
   - This approach wouldn't work for many years of data. Imagine if I had been tracking for 20 or 30 years. I'd need to wrap the charts, or facet by multi-year time periods
+- It was still hard to find an effective way to display four dimensions (year, duration, time, and ascent) in a single chart
+- The transformations in Observable Plot are terse and powerful, but can be a little bit tricky to get the hang of
+- Observable Plot's waffle chart is a little bit buggy, as are tooltips on charts with window transforms

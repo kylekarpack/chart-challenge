@@ -24,12 +24,12 @@ const components: MDXComponents = {
     </Link>
   ),
   ul: ({ children }: { children?: React.ReactNode }) => (
-    <ul className="list-disc list-inside mb-4 space-y-2 text-gray-700">{children}</ul>
+    <ul className="list-disc ml-8 mb-2 space-y-1 text-gray-700">{children}</ul>
   ),
   ol: ({ children }: { children?: React.ReactNode }) => (
-    <ol className="list-decimal list-inside mb-4 space-y-2 text-gray-700">{children}</ol>
+    <ol className="list-decimal ml-8 mb-2 space-y-1 text-gray-700">{children}</ol>
   ),
-  li: ({ children }: { children?: React.ReactNode }) => <li className="ml-4">{children}</li>,
+  li: ({ children }: { children?: React.ReactNode }) => <li className="pl-2 pt-2">{children}</li>,
   blockquote: ({ children }: { children?: React.ReactNode }) => (
     <blockquote className="border-l-4 border-blue-500 pl-4 italic my-4 text-gray-600">
       {children}
