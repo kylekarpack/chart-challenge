@@ -1,7 +1,7 @@
 "use client";
 
 import * as Plot from "@observablehq/plot";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import data from "../hike-histogram/data.json";
 import Link from "next/link";
 
@@ -64,6 +64,8 @@ const Histogram = ({
 const Waffle = () => {
 	const containerRef = useRef<HTMLDivElement>(null);
 
+	const [sortBy, setSortBy] = useState<"x" | "y">("x");
+
 	useEffect(() => {
 		if (enrichedData === undefined) return;
 		const plot = Plot.plot({
@@ -75,6 +77,7 @@ const Waffle = () => {
 				label: null,
 				tickFormat: " ",
 				tickSpacing: Infinity,
+				type: "band"
 			},
 			y: {
 				grid: true,
@@ -88,13 +91,31 @@ const Waffle = () => {
 			marks: [
 				Plot.waffleY(
 					enrichedData,
-					Plot.binX(
-						{ y: "count", fill: "z" },
-						{
-							x: "date",
-							z: "distanceInMiles",
-						}
-					)
+					{
+						...Plot.binX(
+							{ y: "count", fill: "z", sort: sortBy },
+							{
+								x: "date",
+								z: "distanceInMiles",
+							}
+						),
+						tip: {
+							format: {
+								y: false,
+								fill: false,
+								Trail: true,
+								Distance: d => `${d.toFixed(1)} miles`,
+								Elevation: d => `${d.toFixed(0)} ft`,
+								Time: d => `${d.toFixed(1)} hrs`,
+							},
+							channels: {
+								Trail: "title",
+								Distance: "distanceInMiles",
+								Elevation: "ascent",
+								Time: "timeInHours",
+							},
+						},
+					}
 				),
 				Plot.axisY({ anchor: "left", label: "Count" }),
 				Plot.axisX({
@@ -107,9 +128,13 @@ const Waffle = () => {
 		});
 		containerRef.current && containerRef.current.append(plot);
 		return () => plot.remove();
-	}, []);
+	}, [sortBy]);
 
-	return <div ref={containerRef} />;
+	return <div>
+		<button onClick={() => setSortBy("x")}>Sort by Date</button>
+		<button onClick={() => setSortBy("y")}>Sort by Distance</button>
+		 <div ref={containerRef} />
+	</div>;
 };
 
 const ScatterPlot = () => {
