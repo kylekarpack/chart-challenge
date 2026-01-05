@@ -61,6 +61,57 @@ const Histogram = ({
 	return <div ref={containerRef} />;
 };
 
+const Waffle = () => {
+	const containerRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		if (enrichedData === undefined) return;
+		const plot = Plot.plot({
+			title: "Waffle Plot",
+			width: 1200,
+			height: 450,
+			marginBottom: 50,
+			x: {
+				label: null,
+				tickFormat: " ",
+				tickSpacing: Infinity,
+			},
+			y: {
+				grid: true,
+			},
+			color: {
+				scheme: "Viridis",
+				legend: true,
+				label: "Distance (miles)",
+				type: "sqrt",
+			},
+			marks: [
+				Plot.waffleY(
+					enrichedData,
+					Plot.binX(
+						{ y: "count", fill: "z" },
+						{
+							x: "date",
+							z: "distanceInMiles",
+						}
+					)
+				),
+				Plot.axisY({ anchor: "left", label: "Count" }),
+				Plot.axisX({
+					anchor: "bottom",
+					label: "Date",
+					tickFormat: "%Y",
+					labelOffset: 40,
+				}),
+			],
+		});
+		containerRef.current && containerRef.current.append(plot);
+		return () => plot.remove();
+	}, []);
+
+	return <div ref={containerRef} />;
+};
+
 const ScatterPlot = () => {
 	const containerRef = useRef<HTMLDivElement>(null);
 
@@ -206,9 +257,8 @@ const CumulativeTotal = () => {
 							y: "distanceInMiles",
 							curve: "basis",
 						}
-					),
+					)
 				),
-				
 			],
 		});
 		containerRef.current && containerRef.current.append(plot);
@@ -267,9 +317,15 @@ export const HikeHistogramSmallMultiples = () => {
 			</h1>
 			<p className="mb-4">But it might also just be better as a single plot:</p>
 			<ScatterPlotSingle />
+			<h1 className="text-xl font-bold text-gray-900 mb-4 mt-10">
+				Waffle Plot
+			</h1>
+			<p className="mb-4">How about a waffle plot?</p>
+			<Waffle />
 			<h1 className="text-2xl font-bold text-gray-900 mb-4 mt-10">
 				Cumulative Total
 			</h1>
+
 			<p className="mb-4">
 				Cumulative total of hiking miles using{" "}
 				<Link
