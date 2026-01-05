@@ -69,7 +69,6 @@ const Waffle = () => {
   useEffect(() => {
     if (enrichedData === undefined) return;
 
-    console.log("setting to", sortBy);
     const plot = Plot.plot({
       width: 1200,
       height: 450,
@@ -90,6 +89,7 @@ const Waffle = () => {
         type: "sqrt",
       },
       marks: [
+		Plot.ruleY([0]),
         Plot.waffleY(enrichedData, {
           ...Plot.binX(
             { y: "count", fill: "z", sort: sortBy },
@@ -287,7 +287,6 @@ const CumulativeTotal = () => {
               x: "date",
               y: "distanceInMiles",
               curve: "basis",
-              cumulative: true,
               tip: {
                 format: {
                   x: (d) => new Date(d).toLocaleDateString(),
@@ -297,6 +296,7 @@ const CumulativeTotal = () => {
             }
           )
         ),
+		Plot.ruleX(enrichedData, Plot.pointerX({ x: "date", py: "distanceInMiles", stroke: "red" })),
         Plot.axisY({ anchor: "left", label: "Cumulative Distance (miles)" }),
         Plot.axisX({ anchor: "bottom", label: "Year" }),
       ],
