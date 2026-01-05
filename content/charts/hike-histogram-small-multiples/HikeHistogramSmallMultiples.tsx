@@ -281,9 +281,18 @@ const CumulativeTotal = () => {
 							x: "date",
 							y: "distanceInMiles",
 							curve: "basis",
+							cumulative: true,
+							tip: {
+								format: {
+									x: (d) => new Date(d).toLocaleDateString(),
+									y: (d) => `${d.toFixed(1)} cumulative miles`,
+								},
+							}
 						}
 					)
 				),
+				Plot.axisY({ anchor: "left", label: "Cumulative Distance (miles)" }),
+				Plot.axisX({ anchor: "bottom", label: "Year" }),
 			],
 		});
 		containerRef.current && containerRef.current.append(plot);
