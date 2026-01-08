@@ -1,0 +1,15 @@
+---
+title: "Working With Large Datasets"
+publishedAt: "2026-01-08"
+summary: "A test of how different libraries handle large datasets."
+---
+
+How do a few different libraries handle large datasets? I didn't take the time to actually instrument the rendering performance, so the results are purely vibes-based.
+
+Excuse the terrible UX here. As you click the buttons, charts will render. The performance may be terrible and you won't receive any loading feedback!
+
+import { MuchData } from "./MuchData";
+
+<div className="min-h-[800px] w-full">
+  <MuchData />
+</div>
