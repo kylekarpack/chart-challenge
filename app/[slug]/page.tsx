@@ -6,6 +6,7 @@ import { getMDXComponents } from "@/app/mdx-components";
 import { INaturalistSunburst } from "@/content/charts/inaturalist-sunburst/INaturalistSunburst";
 import { HikeHistogram } from "@/content/charts/hike-histogram/HikeHistogram";
 import { HikeHistogramSmallMultiples } from "@/content/charts/hike-histogram-small-multiples/HikeHistogramSmallMultiples";
+import { MuchData } from "@/content/charts/much-data/MuchData";
 
 export async function generateStaticParams() {
   const charts = getAllCharts();
@@ -28,6 +29,7 @@ export default async function ChartPage({
 
   const components = {
     ...getMDXComponents(),
+    MuchData,
     HikeHistogramSmallMultiples,
     HikeHistogram,
     INaturalistSunburst, // TODO: Remove this once we have a more general component
