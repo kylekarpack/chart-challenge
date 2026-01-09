@@ -84,12 +84,12 @@ export const MuchData = () => {
   return (
     <div>
       <div>
-        <style>
+      <style>
           {`
-                .vega-embed, .vega-embed canvas, .vega-embed svg {
-                    max-width: 100% !important;
+                .vega-embed {
+                    width: 100% !important;
                 }
-            `}
+\            `}
         </style>
         <h2 className="text-2xl font-bold mt-8">Vega Lite (canvas)</h2>
         <p>Vega has no problem rendering this dataset in a canvas.</p>
@@ -100,26 +100,28 @@ export const MuchData = () => {
           {showVegaPlot ? "Hide Vega Plot" : "Show Vega Plot"}
         </button>
         {showVegaPlot && (
-          <VegaEmbed
-            options={{
-              renderer: "canvas",
-              width: 1000,
-              height: 800,
-            }}
-            spec={{
-              data: {
-                values: data,
-              },
-              mark: {
-                type: "circle",
-                size: 10,
-              },
-              encoding: {
-                x: { field: "x", type: "quantitative" },
-                y: { field: "y", type: "quantitative" },
-              },
-            }}
-          />
+          <div className="w-full h-[850px]">
+            <VegaEmbed
+              options={{
+                renderer: "canvas",
+              }}
+              spec={{
+                width: "container",
+                height: 800,
+                data: {
+                  values: data,
+                },
+                mark: {
+                  type: "circle",
+                  size: 10,
+                },
+                encoding: {
+                  x: { field: "x", type: "quantitative" },
+                  y: { field: "y", type: "quantitative" },
+                },
+              }}
+            />
+          </div>
         )}
       </div>
       <div>
