@@ -2,7 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import * as Plot from "@observablehq/plot";
-import { ScatterPlot, ScatterPlotCanvas } from "@nivo/scatterplot";
+import {
+  ResponsiveScatterPlot,
+  ResponsiveScatterPlotCanvas,
+} from "@nivo/scatterplot";
 import { init, getInstanceByDom } from "echarts";
 import { VegaEmbed } from "react-vega";
 
@@ -81,6 +84,13 @@ export const MuchData = () => {
   return (
     <div>
       <div>
+        <style>
+          {`
+                .vega-embed, .vega-embed canvas, .vega-embed svg {
+                    max-width: 100% !important;
+                }
+            `}
+        </style>
         <h2 className="text-2xl font-bold mt-8">Vega Lite (canvas)</h2>
         <p>Vega has no problem rendering this dataset in a canvas.</p>
         <button
@@ -181,16 +191,17 @@ export const MuchData = () => {
           {showNivoPlot ? "Hide Nivo SVG" : "Show Nivo SVG"}
         </button>
         {showNivoPlot && (
-          <ScatterPlot
-            width={1000}
-            height={1000}
-            data={[{ id: "data", data: dataSmall1000 }]}
-            margin={{ top: 60, right: 140, bottom: 70, left: 90 }}
-            axisBottom={{ legend: "weight", legendOffset: 46 }}
-            axisLeft={{ legend: "size", legendOffset: -60 }}
-            isInteractive={false}
-            nodeSize={4}
-          />
+          <div className="w-full h-[800px]">
+            <ResponsiveScatterPlot
+              colors={{ scheme: "category10" }}
+              data={[{ id: "data", data: dataSmall1000 }]}
+              margin={{ top: 60, right: 140, bottom: 70, left: 90 }}
+              axisBottom={{ legend: "weight", legendOffset: 46 }}
+              axisLeft={{ legend: "size", legendOffset: -60 }}
+              isInteractive={false}
+              nodeSize={4}
+            />
+          </div>
         )}
       </div>
 
@@ -206,15 +217,16 @@ export const MuchData = () => {
             : "Show Nivo Plot Canvas"}
         </button>
         {showNivoPlotCanvas && (
-          <ScatterPlotCanvas
-            width={1000}
-            height={1000}
-            data={[{ id: "data", data: data }]}
-            margin={{ top: 60, right: 140, bottom: 70, left: 90 }}
-            axisBottom={{ legend: "weight", legendOffset: 46 }}
-            axisLeft={{ legend: "size", legendOffset: -60 }}
-            nodeSize={2}
-          />
+          <div className="w-full h-[800px]">
+            <ResponsiveScatterPlotCanvas
+              colors={{ scheme: "category10" }}
+              data={[{ id: "data", data: data }]}
+              margin={{ top: 60, right: 140, bottom: 70, left: 90 }}
+              axisBottom={{ legend: "weight", legendOffset: 46 }}
+              axisLeft={{ legend: "size", legendOffset: -60 }}
+              nodeSize={2}
+            />
+          </div>
         )}
       </div>
 
@@ -233,11 +245,22 @@ export const MuchData = () => {
               xAxis: {},
               yAxis: {},
               animation: false,
-              series: [{ data: dataMapped, type: "scatter", symbolSize: 2, animation: false }],
+              series: [
+                {
+                  data: dataMapped,
+                  type: "scatter",
+                  symbolSize: 2,
+                  animation: false,
+                  color: "#4c78a8",
+                },
+              ],
+              grid: {
+                left: "0%",
+                right: "0%",
+              },
             }}
             chartSettings={{
               renderer: "svg",
-              width: 1000,
               height: 800,
             }}
           />
@@ -261,11 +284,23 @@ export const MuchData = () => {
               xAxis: {},
               yAxis: {},
               animation: false,
-              series: [{ data: dataMapped, type: "scatter", symbolSize: 2, animation: false }],
+              series: [
+                {
+                  data: dataMapped,
+                  type: "scatter",
+                  symbolSize: 2,
+                  animation: false,
+                  color: "#4c78a8",
+                },
+              ],
+              grid: {
+                left: "0%",
+                right: "0%",
+              },
             }}
             chartSettings={{
               renderer: "canvas",
-              width: 1000,
+              margin: 0,
               height: 800,
             }}
           />
