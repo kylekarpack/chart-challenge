@@ -13,3 +13,10 @@ import { MuchData } from "./MuchData";
 <div className="min-h-[800px] w-full">
   <MuchData />
 </div>
+
+<div className="mt-8" />
+
+Some takeaways:
+- Canvas is broadly superior to SVG for rendering large datasets (fairly obvious, but still nice to see)
+- Rendering performance varies a lot between libraries. Nivo and Vega's SVG implementations are unacceptable on large datasets, whereas ECharts and Observable Plot are still quite performant.
+  - Everything using canvas handled large datasets well
