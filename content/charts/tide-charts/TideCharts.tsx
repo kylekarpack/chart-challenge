@@ -2,9 +2,11 @@
 
 import { EChartsOption, getInstanceByDom, init } from "echarts";
 import { useEffect, useRef, useState } from "react";
-// import data from "./data.json";
-import wavesPattern from "./waves.png";
+import DatePicker from "react-datepicker";
 import { getSeattleTides, getSunData } from "./util";
+import wavesPattern from "./waves.png";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 const fullIntl = new Intl.DateTimeFormat("en-US", {
   weekday: "long",
@@ -68,16 +70,15 @@ const TideCharts = () => {
       getSeattleTides(date),
     ]).then(([sunData, tideData]) => {
       if (tideData?.predictions?.length) {
-        tideData.predictions = tideData.predictions.slice(0, 6); // Six is a nice number of data points for this chart
+        tideData.predictions = tideData.predictions.slice(0, 5); // A nice number of data points for this chart
       }
       setData({ ...tideData, astronomy: sunData });
     });
   }, [date]);
 
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newDate = new Date(e.target.value + "T00:00:00");
-    if (newDate.toString() !== "Invalid Date") {
-      setDate(newDate);
+  const handleDateChange = (e: Date) => {
+    if (e.toString() !== "Invalid Date") {
+      setDate(e);
     }
   };
 
@@ -85,11 +86,10 @@ const TideCharts = () => {
 
   return (
     <div>
-      <input
-        type="date"
+      <DatePicker
         className="mb-4 border border-gray-300 rounded-md py-1 px-2"
-        value={date.toISOString().split("T")[0]}
-        onChange={(e) => handleDateChange(e)}
+        selected={date}
+        onChange={(e: any) => handleDateChange(e)}
       />
       <EChart
         option={{
@@ -153,7 +153,6 @@ const TideCharts = () => {
           },
           animation: true,
           tooltip: {
-            alwaysShowContent: true,
             trigger: "axis",
             formatter: (params: any) => {
               return `<strong>${
