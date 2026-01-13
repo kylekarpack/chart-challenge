@@ -4,7 +4,7 @@ import { EChartsOption, getInstanceByDom, init } from "echarts";
 import { useEffect, useRef, useState } from "react";
 // import data from "./data.json";
 import wavesPattern from "./waves.png";
-import { getSeattleTides } from "./util";
+import { getSeattleTides, getSunData } from "./util";
 
 const EChart = ({
   option,
@@ -40,15 +40,14 @@ const EChart = ({
 };
 
 const TideCharts = () => {
-
-  const [data, setData] = useState<any>({ predictions: [] });
+  const [data, setData] = useState<any>({ predictions: [], astronomy: {} });
 
   useEffect(() => {
-    getSeattleTides().then((data: any) => {
-        console.log("data");
-      console.log(data);
-      setData(data);
-    });
+    Promise.all([getSunData(47.6062, -122.3321), getSeattleTides()]).then(
+      ([sunData, tideData]) => {
+        setData({ ...tideData, astronomy: sunData });
+      }
+    );
   }, []);
 
   const date = new Date();
@@ -78,23 +77,20 @@ const TideCharts = () => {
     <div>
       <EChart
         option={{
-        
           textStyle: {
             fontFamily: "'Adobe Clean', sans-serif",
           },
           title: {
-            text: `${dayIntl
-              .format(date)
-              .toUpperCase()} | SEATTLE`,
+            text: `${dayIntl.format(date).toUpperCase()} | SEATTLE`,
             left: "left",
             textStyle: {
               fontSize: 32,
               fontWeight: "bold",
               color: "#333",
             },
-            // subtext: `sunrise ${hourIntl.format(
-            //   new Date(data.astronomy.sunrise)
-            // )}   sunset ${hourIntl.format(new Date(data.astronomy.sunset))}`,
+            subtext: `sunrise ${hourIntl.format(
+              new Date(data.astronomy.sunrise)
+            )}   sunset ${hourIntl.format(new Date(data.astronomy.sunset))}`,
             subtextStyle: {
               fontSize: 12,
               fontWeight: "normal",

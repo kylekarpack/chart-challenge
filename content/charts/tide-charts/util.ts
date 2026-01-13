@@ -17,7 +17,7 @@ async function getSeattleTides() {
   });
 
   try {
-    const response = await fetch(`${baseUrl}?${params}`, { headers: { "User-Agent": "SeattleTideApp/1.0 (contact@yourdomain.com)" } });
+    const response = await fetch(`${baseUrl}?${params}`);
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
     const data = await response.json();
@@ -34,4 +34,25 @@ async function getSeattleTides() {
   }
 }
 
-export { getSeattleTides };
+async function getSunData(lat: number, lng: number) {
+  const url = `https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lng}&formatted=0`;
+
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    const results = data.results;
+
+    return results;
+  } catch (error) {
+    console.error("Could not fetch data:", error);
+    return null;
+  }
+}
+
+export { getSeattleTides, getSunData };
