@@ -132,17 +132,20 @@ const TideCharts = () => {
             name: "Time",
             nameLocation: "middle",
             nameGap: 10,
-  
+
             type: "time",
             splitNumber: 12,
             axisTick: {
-                show: true,
+              show: true,
             },
             axisLabel: {
               formatter: {
                 day: "{hh}\n\n{MMM} {d}",
                 hour: "{hh}",
               },
+            },
+            axisLine: {
+              onZero: false,
             },
           },
           yAxis: {
