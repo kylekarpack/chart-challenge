@@ -1,45 +1,57 @@
 "use client";
 
 import { EChartsOption, getInstanceByDom, init } from "echarts";
-import { useEffect, useRef } from "react";
-import data from "./data.json";
+import { useEffect, useRef, useState } from "react";
+// import data from "./data.json";
 import wavesPattern from "./waves.png";
+import { getSeattleTides } from "./util";
+
+const EChart = ({
+  option,
+  chartSettings,
+  optionSettings,
+  style = { width: "100%", height: "500px" },
+  ...props
+}: {
+  option: EChartsOption;
+  chartSettings?: any;
+  optionSettings?: any;
+  style?: any;
+}) => {
+  const chartRef = useRef(null);
+
+  useEffect(() => {
+    // Initialize chart
+    const chart = init(chartRef.current, null, chartSettings);
+
+    return () => {
+      chart?.dispose();
+    };
+  }, [chartSettings]);
+
+  useEffect(() => {
+    // Re-render chart when option changes
+    const chart = getInstanceByDom(chartRef.current!);
+
+    chart?.setOption(option, optionSettings);
+  }, [option, optionSettings]);
+
+  return <div ref={chartRef} style={style} {...props} />;
+};
 
 const TideCharts = () => {
-  const EChart = ({
-    option,
-    chartSettings,
-    optionSettings,
-    style = { width: "100%", height: "500px" },
-    ...props
-  }: {
-    option: EChartsOption;
-    chartSettings?: any;
-    optionSettings?: any;
-    style?: any;
-  }) => {
-    const chartRef = useRef(null);
 
-    useEffect(() => {
-      // Initialize chart
-      const chart = init(chartRef.current, null, chartSettings);
+  const [data, setData] = useState<any>({ predictions: [] });
 
-      return () => {
-        chart?.dispose();
-      };
-    }, [chartSettings]);
+  useEffect(() => {
+    getSeattleTides().then((data: any) => {
+        console.log("data");
+      console.log(data);
+      setData(data);
+    });
+  }, []);
 
-    useEffect(() => {
-      // Re-render chart when option changes
-      const chart = getInstanceByDom(chartRef.current!);
-
-      chart?.setOption(option, optionSettings);
-    }, [option, optionSettings]);
-
-    return <div ref={chartRef} style={style} {...props} />;
-  };
-
-  const date = new Date(data.date);
+  const date = new Date();
 
   const fullIntl = new Intl.DateTimeFormat("en-US", {
     weekday: "long",
@@ -60,21 +72,29 @@ const TideCharts = () => {
     minute: "2-digit",
   });
 
+  if (!data?.predictions?.length) return <div>Loading...</div>;
+
   return (
     <div>
       <EChart
         option={{
+        
+          textStyle: {
+            fontFamily: "'Adobe Clean', sans-serif",
+          },
           title: {
-            text: dayIntl.format(date).toUpperCase(),
+            text: `${dayIntl
+              .format(date)
+              .toUpperCase()} | SEATTLE`,
             left: "left",
             textStyle: {
               fontSize: 32,
               fontWeight: "bold",
               color: "#333",
             },
-            subtext: `sunrise ${hourIntl.format(
-              new Date(data.astronomy.sunrise)
-            )}   sunset ${hourIntl.format(new Date(data.astronomy.sunset))}`,
+            // subtext: `sunrise ${hourIntl.format(
+            //   new Date(data.astronomy.sunrise)
+            // )}   sunset ${hourIntl.format(new Date(data.astronomy.sunset))}`,
             subtextStyle: {
               fontSize: 12,
               fontWeight: "normal",
@@ -84,27 +104,52 @@ const TideCharts = () => {
             },
           },
           xAxis: {
+            name: "Time",
+            nameLocation: "middle",
+            nameGap: 10,
+            nameTextStyle: {
+              fontSize: 12,
+              fontWeight: "normal",
+              color: "#666",
+            },
             type: "time",
             axisLabel: {
               formatter: "{hh}",
+              interval: 12,
             },
             minorTick: {
               show: true,
             },
           },
-          yAxis: {},
+          yAxis: {
+            name: "Height (feet)",
+            nameLocation: "middle",
+            nameGap: 10,
+            nameTextStyle: {
+              fontSize: 12,
+              fontWeight: "normal",
+              color: "#666",
+            },
+          },
           animation: true,
           tooltip: {
             alwaysShowContent: true,
             trigger: "axis",
             formatter: (params: any) => {
-                console.log(params);
-              return `<strong>${params[0].value[2]}</strong><br />${fullIntl.format(new Date(params[0].value[0]))}<br />${params[0].value[1]} feet`;
+              return `<strong>${
+                params[0].value[2]
+              }</strong><br />${fullIntl.format(
+                new Date(params[0].value[0])
+              )}<br />${params[0].value[1]} feet`;
             },
           },
           series: [
             {
-              data: data.tide_events.map((event) => [event.time, event.height, event.type]),
+              data: data?.predictions.map((event: any) => [
+                new Date(event.t),
+                Math.round(Number(event.v) * 10) / 10,
+                event.type === "H" ? "High tide" : "Low tide",
+              ]),
               type: "line",
               color: "#555",
               smooth: true,
