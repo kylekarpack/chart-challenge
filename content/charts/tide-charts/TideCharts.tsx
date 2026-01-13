@@ -132,24 +132,23 @@ const TideCharts = () => {
             name: "Time",
             nameLocation: "middle",
             nameGap: 10,
-            nameTextStyle: {
-              fontSize: 12,
-              fontWeight: "normal",
-              color: "#666",
-            },
+  
             type: "time",
             splitNumber: 12,
-            axisTick: false as any,
+            axisTick: {
+                show: true,
+            },
+            axisLabel: {
+              formatter: {
+                day: "{hh}\n\n{MMM} {d}",
+                hour: "{hh}",
+              },
+            },
           },
           yAxis: {
             name: "Height (feet)",
             nameLocation: "middle",
             nameGap: 10,
-            nameTextStyle: {
-              fontSize: 12,
-              fontWeight: "normal",
-              color: "#666",
-            },
           },
           animation: true,
           tooltip: {
