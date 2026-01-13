@@ -1,8 +1,8 @@
-async function getSeattleTides() {
+async function getSeattleTides(date: Date) {
   const stationId = "9447130"; // Seattle, WA
   const baseUrl = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter";
 
-  const now = new Date();
+  const now = date;
   const beginDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const endDate = new Date(
     now.getFullYear(),
@@ -35,8 +35,8 @@ async function getSeattleTides() {
   }
 }
 
-async function getSunData(lat: number, lng: number) {
-  const url = `https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lng}&formatted=0`;
+async function getSunData(date: Date,lat: number, lng: number) {
+  const url = `https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lng}&date=${date.toISOString().split("T")[0]}&formatted=0`;
 
   try {
     const response = await fetch(url);

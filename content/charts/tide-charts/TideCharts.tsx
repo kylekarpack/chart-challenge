@@ -41,16 +41,19 @@ const EChart = ({
 
 const TideCharts = () => {
   const [data, setData] = useState<any>({ predictions: [], astronomy: {} });
+  const [date, setDate] = useState<Date>(new Date());
 
   useEffect(() => {
-    Promise.all([getSunData(47.6062, -122.3321), getSeattleTides()]).then(
-      ([sunData, tideData]) => {
-        setData({ ...tideData, astronomy: sunData });
+    Promise.all([
+      getSunData(date, 47.6062, -122.3321),
+      getSeattleTides(date),
+    ]).then(([sunData, tideData]) => {
+      if (tideData?.predictions?.length) {
+        tideData.predictions = tideData.predictions.slice(0, 6); // Six is a nice number of data points for this chart
       }
-    );
-  }, []);
-
-  const date = new Date();
+      setData({ ...tideData, astronomy: sunData });
+    });
+  }, [date]);
 
   const fullIntl = new Intl.DateTimeFormat("en-US", {
     weekday: "long",
@@ -75,6 +78,12 @@ const TideCharts = () => {
 
   return (
     <div>
+      <input
+        type="date"
+        className="mb-4 border border-gray-300 rounded-md py-1 px-2"
+        value={date.toISOString().split("T")[0]}
+        onChange={(e) => setDate(new Date(e.target.value + "T00:00:00"))}
+      />
       <EChart
         option={{
           textStyle: {
@@ -109,21 +118,19 @@ const TideCharts = () => {
               color: "#666",
             },
             type: "time",
-            axisLabel: {
-              formatter: "{hh}",
-            },
-            axisTick: false as any
+            splitNumber: 12,
+            axisTick: false as any,
           },
           yAxis: {
             name: "Height (feet)",
             nameLocation: "middle",
-            
+
             nameGap: 10,
             nameTextStyle: {
               fontSize: 12,
               fontWeight: "normal",
               color: "#666",
-            }
+            },
           },
           animation: true,
           tooltip: {
