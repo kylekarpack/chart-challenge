@@ -96,6 +96,13 @@ const TideCharts = () => {
           textStyle: {
             fontFamily: "'Adobe Clean', sans-serif",
           },
+          toolbox: {
+            feature: {
+              saveAsImage: {
+                show: true,
+              },
+            },
+          },
           title: {
             text: `${dayIntl.format(date).toUpperCase()} | SEATTLE`,
             left: "left",
@@ -104,13 +111,19 @@ const TideCharts = () => {
               fontWeight: "bold",
               color: "#333",
             },
-            subtext: `sunrise ${hourIntl.format(
+            subtext: `dawn ${hourIntl.format(
+              new Date(data.astronomy.civil_twilight_begin)
+            )}   sunrise ${hourIntl.format(
               new Date(data.astronomy.sunrise)
-            )}   sunset ${hourIntl.format(new Date(data.astronomy.sunset))}`,
+            )}   sunset ${hourIntl.format(
+              new Date(data.astronomy.sunset)
+            )}   dark ${hourIntl.format(
+              new Date(data.astronomy.civil_twilight_end)
+            )}`,
             subtextStyle: {
-              fontSize: 12,
+              fontSize: 14,
               fontWeight: "normal",
-              color: "#666",
+              color: "#777",
               align: "left",
               verticalAlign: "top",
             },
@@ -131,7 +144,6 @@ const TideCharts = () => {
           yAxis: {
             name: "Height (feet)",
             nameLocation: "middle",
-
             nameGap: 10,
             nameTextStyle: {
               fontSize: 12,
@@ -161,11 +173,25 @@ const TideCharts = () => {
               type: "line",
               color: "#555",
               smooth: true,
-              markPoint: {
-                data: [
-                  { type: "max", name: "High tide" },
-                  { type: "min", name: "Low tide" },
-                ],
+              label: {
+                show: true,
+                formatter: (params: any) => {
+                  return `{footLabel|${
+                    params.value[1]
+                  } ft}\n (${hourIntl.format(new Date(params.value[0]))})`;
+                },
+                rich: {
+                  footLabel: {
+                    color: "#333",
+                    fontSize: 14,
+                    fontWeight: "900",
+                  } as any,
+                },
+                color: "#555",
+                backgroundColor: "rgba(255, 255, 255, 1)",
+                padding: [5, 5],
+                borderRadius: 5,
+                borderWidth: 1,
               },
               areaStyle: {
                 color: {
@@ -178,6 +204,11 @@ const TideCharts = () => {
               lineStyle: {
                 width: 5,
               },
+              emphasis: {
+                disabled: true,
+                scale: false,
+              },
+              symbolSize: 0,
             },
           ],
           grid: {
