@@ -2,10 +2,18 @@ async function getSeattleTides() {
   const stationId = "9447130"; // Seattle, WA
   const baseUrl = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter";
 
+  const now = new Date();
+  const beginDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const endDate = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate() + 1
+  );
+
   // Parameters for 2026 predictions
   const params = new URLSearchParams({
-    date: "today", // Starts from current time in 2026
-    range: "48", // Next 48 hours
+    begin_date: beginDate.toISOString().split("T")[0],
+    end_date: endDate.toISOString().split("T")[0],
     station: stationId,
     product: "predictions",
     datum: "MLLW",
@@ -21,13 +29,6 @@ async function getSeattleTides() {
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
     const data = await response.json();
-
-    // Process and log the predictions
-    console.log("Seattle Tide Predictions (Next 48 Hours):");
-    data.predictions.forEach((tide: any) => {
-      const type = tide.type === "H" ? "High" : "Low";
-      console.log(`${tide.t}: ${tide.v} ft (${type})`);
-    });
     return data;
   } catch (error) {
     console.error("Could not fetch tide data:", error);

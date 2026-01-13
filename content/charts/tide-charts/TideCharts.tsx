@@ -111,21 +111,19 @@ const TideCharts = () => {
             type: "time",
             axisLabel: {
               formatter: "{hh}",
-              interval: 12,
             },
-            minorTick: {
-              show: true,
-            },
+            axisTick: false as any
           },
           yAxis: {
             name: "Height (feet)",
             nameLocation: "middle",
+            
             nameGap: 10,
             nameTextStyle: {
               fontSize: 12,
               fontWeight: "normal",
               color: "#666",
-            },
+            }
           },
           animation: true,
           tooltip: {
