@@ -39,47 +39,72 @@ const TideCharts = () => {
     return <div ref={chartRef} style={style} {...props} />;
   };
 
-  const date = new Date(data.date)
+  const date = new Date(data.date);
+
+  const fullIntl = new Intl.DateTimeFormat("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  const dayIntl = new Intl.DateTimeFormat("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+  });
+
+  const hourIntl = new Intl.DateTimeFormat("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 
   return (
     <div>
       <EChart
         option={{
-            title: {
-                text: date.toDateString().toUpperCase(),
-                left: 'left',
-                textStyle: {
-                    fontSize: 32,
-                    fontWeight: 'bold',
-                    color: '#333',
-                },
-                subtext: `sunrise ${new Date(data.astronomy.sunrise).toLocaleTimeString()}   sunset ${new Date(data.astronomy.sunset).toLocaleTimeString()}`,
-                subtextStyle: {
-                    fontSize: 12,
-                    fontWeight: 'normal',
-                    color: '#666',
-                    align: 'left',
-                    verticalAlign: 'top',
-                },
+          title: {
+            text: dayIntl.format(date).toUpperCase(),
+            left: "left",
+            textStyle: {
+              fontSize: 32,
+              fontWeight: "bold",
+              color: "#333",
             },
+            subtext: `sunrise ${hourIntl.format(
+              new Date(data.astronomy.sunrise)
+            )}   sunset ${hourIntl.format(new Date(data.astronomy.sunset))}`,
+            subtextStyle: {
+              fontSize: 12,
+              fontWeight: "normal",
+              color: "#666",
+              align: "left",
+              verticalAlign: "top",
+            },
+          },
           xAxis: {
             type: "time",
             axisLabel: {
-                formatter: '{hh}',
+              formatter: "{hh}",
             },
             minorTick: {
-                show: true
-            }
+              show: true,
+            },
           },
           yAxis: {},
           animation: true,
           tooltip: {
             alwaysShowContent: true,
             trigger: "axis",
+            formatter: (params: any) => {
+                console.log(params);
+              return `<strong>${params[0].value[2]}</strong><br />${fullIntl.format(new Date(params[0].value[0]))}<br />${params[0].value[1]} feet`;
+            },
           },
           series: [
             {
-              data: data.tide_events.map((event) => [event.time, event.height]),
+              data: data.tide_events.map((event) => [event.time, event.height, event.type]),
               type: "line",
               color: "#555",
               smooth: true,
@@ -92,8 +117,8 @@ const TideCharts = () => {
               areaStyle: {
                 color: {
                   image: wavesPattern.src,
-                  scaleX: .75,
-                  scaleY: .75,
+                  scaleX: 0.75,
+                  scaleY: 0.75,
                 },
                 opacity: 0.75,
               },
