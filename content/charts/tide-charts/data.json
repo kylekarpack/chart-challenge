@@ -1,0 +1,32 @@
+{
+    "station": "Seattle, Puget Sound",
+    "date": "2026-01-13",
+    "datum": "MLLW",
+    "unit": "feet",
+    "tide_events": [
+      {
+        "type": "High Tide",
+        "time": "2026-01-13T02:45:00",
+        "height": 9.66
+      },
+      {
+        "type": "Low Tide",
+        "time": "2026-01-13T06:48:00",
+        "height": 8.17
+      },
+      {
+        "type": "High Tide",
+        "time": "2026-01-13T11:48:00",
+        "height": 10.39
+      },
+      {
+        "type": "Low Tide",
+        "time": "2026-01-13T19:41:00",
+        "height": 0.46
+      }
+    ],
+    "astronomy": {
+      "sunrise": "2026-01-13T07:53:00",
+      "sunset": "2026-01-13T16:42:00"
+    }
+  }
