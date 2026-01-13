@@ -10,7 +10,7 @@ const TideCharts = () => {
     option,
     chartSettings,
     optionSettings,
-    style = { width: "100%", height: "800px" },
+    style = { width: "100%", height: "500px" },
     ...props
   }: {
     option: EChartsOption;
@@ -45,6 +45,12 @@ const TideCharts = () => {
         option={{
           xAxis: {
             type: "time",
+            axisLabel: {
+                formatter: '{hh}',
+            },
+            minorTick: {
+                show: true
+            }
           },
           yAxis: {},
           animation: true,
@@ -55,27 +61,34 @@ const TideCharts = () => {
           series: [
             {
               data: data.tide_events.map((event) => [event.time, event.height]),
-              color: "#444",
               type: "line",
+              color: "#555",
               smooth: true,
+              markPoint: {
+                data: [
+                  { type: "max", name: "High tide" },
+                  { type: "min", name: "Low tide" },
+                ],
+              },
               areaStyle: {
                 color: {
                   image: wavesPattern.src,
                 },
+                opacity: 0.5,
               },
               lineStyle: {
-                width: 2,
+                width: 5,
               },
             },
           ],
           grid: {
-            left: "0%",
-            right: "0%",
+            left: "5%",
+            right: "5%",
           },
         }}
         chartSettings={{
           renderer: "canvas",
-          height: 800,
+          height: 650,
         }}
       />
     </div>
