@@ -6,6 +6,25 @@ import { useEffect, useRef, useState } from "react";
 import wavesPattern from "./waves.png";
 import { getSeattleTides, getSunData } from "./util";
 
+const fullIntl = new Intl.DateTimeFormat("en-US", {
+  weekday: "long",
+  month: "long",
+  day: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+});
+
+const dayIntl = new Intl.DateTimeFormat("en-US", {
+  weekday: "short",
+  month: "short",
+  day: "numeric",
+});
+
+const hourIntl = new Intl.DateTimeFormat("en-US", {
+  hour: "2-digit",
+  minute: "2-digit",
+});
+
 const EChart = ({
   option,
   chartSettings,
@@ -55,24 +74,12 @@ const TideCharts = () => {
     });
   }, [date]);
 
-  const fullIntl = new Intl.DateTimeFormat("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-
-  const dayIntl = new Intl.DateTimeFormat("en-US", {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-  });
-
-  const hourIntl = new Intl.DateTimeFormat("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newDate = new Date(e.target.value + "T00:00:00");
+    if (newDate.toString() !== "Invalid Date") {
+      setDate(newDate);
+    }
+  };
 
   if (!data?.predictions?.length) return <div>Loading...</div>;
 
@@ -82,7 +89,7 @@ const TideCharts = () => {
         type="date"
         className="mb-4 border border-gray-300 rounded-md py-1 px-2"
         value={date.toISOString().split("T")[0]}
-        onChange={(e) => setDate(new Date(e.target.value + "T00:00:00"))}
+        onChange={(e) => handleDateChange(e)}
       />
       <EChart
         option={{
