@@ -39,10 +39,29 @@ const TideCharts = () => {
     return <div ref={chartRef} style={style} {...props} />;
   };
 
+  const date = new Date(data.date)
+
   return (
     <div>
       <EChart
         option={{
+            title: {
+                text: date.toDateString().toUpperCase(),
+                left: 'left',
+                textStyle: {
+                    fontSize: 32,
+                    fontWeight: 'bold',
+                    color: '#333',
+                },
+                subtext: `sunrise ${new Date(data.astronomy.sunrise).toLocaleTimeString()}   sunset ${new Date(data.astronomy.sunset).toLocaleTimeString()}`,
+                subtextStyle: {
+                    fontSize: 12,
+                    fontWeight: 'normal',
+                    color: '#666',
+                    align: 'left',
+                    verticalAlign: 'top',
+                },
+            },
           xAxis: {
             type: "time",
             axisLabel: {
@@ -73,8 +92,10 @@ const TideCharts = () => {
               areaStyle: {
                 color: {
                   image: wavesPattern.src,
+                  scaleX: .75,
+                  scaleY: .75,
                 },
-                opacity: 0.5,
+                opacity: 0.75,
               },
               lineStyle: {
                 width: 5,
@@ -82,6 +103,7 @@ const TideCharts = () => {
             },
           ],
           grid: {
+            top: 100,
             left: "5%",
             right: "5%",
           },
