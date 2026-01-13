@@ -1,9 +1,9 @@
 "use client";
 
-import { init, getInstanceByDom, graphic, EChartsOption } from "echarts";
-import { useRef, useEffect } from "react";
-import { wavesPattern } from "./waves";
+import { EChartsOption, getInstanceByDom, init } from "echarts";
+import { useEffect, useRef } from "react";
 import data from "./data.json";
+import wavesPattern from "./waves.png";
 
 const TideCharts = () => {
   const EChart = ({
@@ -50,17 +50,17 @@ const TideCharts = () => {
           animation: true,
           tooltip: {
             alwaysShowContent: true,
-            trigger: "axis"
+            trigger: "axis",
           },
           series: [
             {
-              data: data.tide_events.map(event => ([event.time, event.height])),
+              data: data.tide_events.map((event) => [event.time, event.height]),
               color: "#444",
               type: "line",
               smooth: true,
               areaStyle: {
                 color: {
-                  image: wavesPattern,
+                  image: wavesPattern.src,
                 },
               },
               lineStyle: {
