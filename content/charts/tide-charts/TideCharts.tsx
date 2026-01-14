@@ -152,6 +152,9 @@ const TideCharts = () => {
             name: "Height (feet)",
             nameLocation: "middle",
             nameGap: 10,
+            minorSplitLine: {
+              show: true,
+            },
           },
           animation: true,
           tooltip: {
