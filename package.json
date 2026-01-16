@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A Next.js/React/TypeScript application",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --port 3001",
     "build": "next build",
     "start": "next start",
     "export": "next build",
@@ -29,6 +29,7 @@
     "next": "^16.0.10",
     "next-mdx-remote": "^4.4.1",
     "react": "^19.2.3",
+    "react-datepicker": "^9.1.0",
     "react-dom": "^19.2.3",
     "react-vega": "^8.0.0",
     "vega": "^6.2.0",
