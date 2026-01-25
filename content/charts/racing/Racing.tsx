@@ -1,0 +1,149 @@
+"use client";
+
+import { color } from "d3";
+import { EChartsOption, getInstanceByDom, graphic, init } from "echarts";
+import { useEffect, useRef, useState } from "react";
+import bundesligaData from "./bundesliga_cumulative_goals.json";
+import { TEAM_COLORS } from "./utils/team-colors";
+
+const EChart = ({
+	option,
+	chartSettings,
+	optionSettings,
+	style = { width: "100%", height: "500px" },
+	...props
+}: {
+	option: EChartsOption;
+	chartSettings?: any;
+	optionSettings?: any;
+	style?: any;
+}) => {
+	const chartRef = useRef(null);
+
+	useEffect(() => {
+		// Initialize chart
+		const chart = init(chartRef.current, null, chartSettings);
+
+		return () => {
+			chart?.dispose();
+		};
+	}, []);
+
+	useEffect(() => {
+		const chart = getInstanceByDom(chartRef.current!);
+		chart?.setOption(option, optionSettings);
+	}, [option, optionSettings]);
+
+	useEffect(() => {
+		// Re-render chart when option changes
+		const chart = getInstanceByDom(chartRef.current!);
+
+		chart?.setOption(option, optionSettings);
+	}, [option, optionSettings]);
+
+	return <div ref={chartRef} style={style} {...props} />;
+};
+
+const Racing = () => {
+	const teams = Object.keys(bundesligaData[0]).filter(
+		(key) => key !== "SeasonFrom",
+	);
+	const [index, setIndex] = useState(0);
+	const currentSeasonData = bundesligaData[index];
+	const data = teams.map((team) => (currentSeasonData as any)[team]);
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setIndex((prevIndex) => (prevIndex + 1) % bundesligaData.length);
+		}, 2000);
+		return () => clearInterval(interval);
+	}, []);
+
+	return (
+		<div>
+			<EChart
+				option={{
+					textStyle: {
+						fontFamily: "'Adobe Clean', sans-serif",
+					},
+					grid: {
+						top: 80,
+					},
+					title: {
+						text: `Bundesliga Total Goals`,
+						subtext: `Season: ${currentSeasonData.SeasonFrom}`,
+						left: "left",
+						textStyle: {
+							fontSize: 20,
+							fontWeight: "bold",
+							color: "#333",
+						},
+						subtextStyle: {
+							fontSize: 16,
+							fontWeight: "normal",
+							color: "#777",
+						},
+					},
+					tooltip: {
+						trigger: "axis",
+					},
+					xAxis: {
+						max: "dataMax",
+					},
+					yAxis: {
+						type: "category",
+						data: teams,
+						inverse: true,
+						animationDuration: 300,
+						animationDurationUpdate: 300,
+						max: 14, // show top 15 teams
+					},
+					series: [
+						{
+							realtimeSort: true,
+							name: "Total Goals",
+							type: "bar",
+							data: data,
+							label: {
+								show: true,
+								position: "right",
+								valueAnimation: true,
+							},
+							itemStyle: {
+								color: (params: any) => {
+									const teamName = teams[params.dataIndex];
+									const baseColor = TEAM_COLORS[teamName] || "#4b5563";
+									const brighterColor =
+										color(baseColor)?.brighter(1.5).toString() || baseColor;
+									return new graphic.LinearGradient(0, 0, 1, 0, [
+										{
+											offset: 0,
+											color: baseColor,
+										},
+										{
+											offset: 1,
+											color: brighterColor,
+										},
+									]);
+								},
+							},
+						},
+					],
+					legend: {
+						show: false,
+					},
+					animationDuration: 0,
+					animationDurationUpdate: 2000,
+					animationEasing: "linear",
+					animationEasingUpdate: "linear",
+				}}
+				chartSettings={{
+					renderer: "canvas",
+					height: 650,
+				}}
+			/>
+		</div>
+	);
+};
+
+export default Racing;
