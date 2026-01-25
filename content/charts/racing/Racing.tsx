@@ -10,7 +10,7 @@ const EChart = ({
 	option,
 	chartSettings,
 	optionSettings,
-	style = { width: "100%", height: "500px" },
+	style = { width: "100%", height: "800px" },
 	...props
 }: {
 	option: EChartsOption;
@@ -53,9 +53,13 @@ const Racing = () => {
 	const data = teams.map((team) => (currentSeasonData as any)[team]);
 
 	useEffect(() => {
+		// eslint-disable-next-line react-hooks/set-state-in-effect
+		setIndex((prevIndex) => (prevIndex + 1) % bundesligaData.length);
+
 		const interval = setInterval(() => {
 			setIndex((prevIndex) => (prevIndex + 1) % bundesligaData.length);
 		}, 2000);
+		
 		return () => clearInterval(interval);
 	}, []);
 
@@ -67,14 +71,14 @@ const Racing = () => {
 						fontFamily: "'Adobe Clean', sans-serif",
 					},
 					grid: {
-						top: 80,
+						top: 100,
 					},
 					title: {
-						text: `Bundesliga Total Goals`,
+						text: `Bundesliga All-Time Goal Total`,
 						subtext: `Season: ${currentSeasonData.SeasonFrom}`,
 						left: "left",
 						textStyle: {
-							fontSize: 20,
+							fontSize: 24,
 							fontWeight: "bold",
 							color: "#333",
 						},
@@ -96,7 +100,7 @@ const Racing = () => {
 						inverse: true,
 						animationDuration: 300,
 						animationDurationUpdate: 300,
-						max: 14, // show top 15 teams
+						max: 15, // show top 15 teams
 					},
 					series: [
 						{
@@ -110,11 +114,12 @@ const Racing = () => {
 								valueAnimation: true,
 							},
 							itemStyle: {
+								borderWidth: 1,
 								color: (params: any) => {
 									const teamName = teams[params.dataIndex];
 									const baseColor = TEAM_COLORS[teamName] || "#4b5563";
 									const brighterColor =
-										color(baseColor)?.brighter(1.5).toString() || baseColor;
+										color(baseColor)?.brighter(0.5).toString() || baseColor;
 									return new graphic.LinearGradient(0, 0, 1, 0, [
 										{
 											offset: 0,
@@ -139,7 +144,7 @@ const Racing = () => {
 				}}
 				chartSettings={{
 					renderer: "canvas",
-					height: 650,
+					height: 800,
 				}}
 			/>
 		</div>
