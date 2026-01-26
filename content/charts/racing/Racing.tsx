@@ -107,15 +107,27 @@ const Racing = () => {
 					color: "#777",
 				},
 			},
-			tooltip: {
-				trigger: "axis",
-			},
 			xAxis: {
 				max: "dataMax",
+				axisLine: { show: false },
+				axisTick: { show: false },
+				splitLine: {
+					lineStyle: {
+						color: "#eee",
+					},
+				},
 			},
 			yAxis: {
 				axisLine: {
-					show: true,
+					show: false,
+				},
+				axisTick: {
+					show: false,
+				},
+				axisLabel: {
+					margin: 15,
+					fontSize: 14,
+					color: "#666",
 				},
 				type: "category",
 				data: teams,
@@ -141,7 +153,11 @@ const Racing = () => {
 						rich: rich as any,
 					},
 					itemStyle: {
-						borderWidth: 1,
+						borderRadius: [0, 5, 5, 0],
+						shadowBlur: 10,
+						shadowColor: "rgba(0,0,0,0.1)",
+						shadowOffsetX: 2,
+						shadowOffsetY: 2,
 						color: (params: any) => {
 							const teamName = teams[params.dataIndex];
 							const baseColor = TEAM_COLORS[teamName] || "#4b5563";
@@ -150,7 +166,7 @@ const Racing = () => {
 							return new graphic.LinearGradient(0, 0, 1, 0, [
 								{
 									offset: 0,
-									color: color(baseColor)?.copy({opacity: 0.9}).toString() || baseColor,
+									color: color(baseColor)?.copy({ opacity: 0.9 }).toString() || baseColor,
 								},
 								{
 									offset: 1,
