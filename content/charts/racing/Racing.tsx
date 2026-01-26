@@ -47,8 +47,7 @@ const EChart = ({
 
 const Racing = () => {
 	const teams = useMemo(
-		() =>
-			Object.keys(bundesligaData[0]).filter((key) => key !== "SeasonFrom"),
+		() => Object.keys(bundesligaData[0]).filter((key) => key !== "SeasonFrom"),
 		[],
 	);
 	const [index, setIndex] = useState(0);
@@ -115,6 +114,9 @@ const Racing = () => {
 				max: "dataMax",
 			},
 			yAxis: {
+				axisLine: {
+					show: true,
+				},
 				type: "category",
 				data: teams,
 				inverse: true,
@@ -144,11 +146,11 @@ const Racing = () => {
 							const teamName = teams[params.dataIndex];
 							const baseColor = TEAM_COLORS[teamName] || "#4b5563";
 							const brighterColor =
-								color(baseColor)?.brighter(0.5).toString() || baseColor;
+								color(baseColor)?.brighter(0.5).copy({ opacity: 0.95 }).toString() || baseColor;
 							return new graphic.LinearGradient(0, 0, 1, 0, [
 								{
 									offset: 0,
-									color: baseColor,
+									color: color(baseColor)?.copy({opacity: 0.9}).toString() || baseColor,
 								},
 								{
 									offset: 1,
