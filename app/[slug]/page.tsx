@@ -8,6 +8,7 @@ import { HikeHistogram } from "@/content/charts/hike-histogram/HikeHistogram";
 import { HikeHistogramSmallMultiples } from "@/content/charts/hike-histogram-small-multiples/HikeHistogramSmallMultiples";
 import { MuchData } from "@/content/charts/much-data/MuchData";
 import TideCharts from "@/content/charts/tide-charts/TideCharts";
+import Racing from "@/content/charts/racing/Racing";
 
 export async function generateStaticParams() {
   const charts = getAllCharts();
@@ -30,6 +31,7 @@ export default async function ChartPage({
 
   const components = {
     ...getMDXComponents(),
+		Racing,
     TideCharts,
     MuchData,
     HikeHistogramSmallMultiples,
