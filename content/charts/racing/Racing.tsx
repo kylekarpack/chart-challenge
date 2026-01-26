@@ -11,7 +11,7 @@ const EChart = ({
 	option,
 	chartSettings,
 	optionSettings,
-	style = { width: "100%", height: "800px" },
+	style = { width: "100%", height: "680px" },
 	...props
 }: {
 	option: EChartsOption;
@@ -222,7 +222,7 @@ const Racing = () => {
 				option={option}
 				chartSettings={{
 					renderer: "canvas",
-					height: 800,
+					height: 680,
 				}}
 			/>
 			<div className="flex items-center gap-6 px-6 py-4 bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl shadow-sm w-full">
