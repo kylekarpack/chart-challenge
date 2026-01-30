@@ -47,28 +47,28 @@ const option: EChartsOption = {
 	},
 	title: {
 		text: "Loyalty is the lowest among the price-sensitive cohort",
-		left: "4.5%",
+		left: "3.5%",
 		right: "4.5%",
 		textAlign: "left",
 		textStyle: {
 			fontSize: 40,
+			fontWeight: 900,
 		},
 		subtextStyle: {
 			fontSize: 20,
 			lineOverflow: "truncate",
 		},
 		subtext:
-			"Price sensitive users have the lowest loyalty of all cohorts. This suggests that they perceive less value in the product and are less likely to become strong advocates",
+			"Price sensitive users have the lowest loyalty of all cohorts. This suggests that they perceive less value in the product\nand are less likely to become strong advocates",
 	},
 	tooltip: {
 		trigger: "axis",
 	},
-
 	grid: {
-		left: "3%",
+		left: "2%",
 		right: "4%",
 		bottom: "3%",
-		top: "175px",
+		top: "200px",
 		containLabel: true,
 	},
 	xAxis: {
@@ -91,11 +91,11 @@ const option: EChartsOption = {
 	yAxis: {
 		type: "value",
 		name: "AVERAGE NPS",
-		nameGap: 30,
+		nameGap: 35,
 		nameLocation: "end",
 		nameTextStyle: {
-			padding: [0, 0, 10, 5],
-			fontWeight: 700,
+			padding: [0, 0, 0, -10],
+			fontWeight: 900,
 		},
 		interval: 20,
 		maxInterval: 20,
@@ -112,7 +112,7 @@ const option: EChartsOption = {
 		axisLabel: {
 			align: "left",
 			baseline: "bottom",
-			padding: [0, 10, 10, 10],
+			padding: [0, 10, 8, 10],
 			margin: 50,
 		},
 		position: "left",
