@@ -47,7 +47,8 @@ const option: EChartsOption = {
   },
   title: {
     text: "Loyalty is the lowest among the price-sensitive cohort",
-    left: "3.5%",
+    left: "4.5%",
+		right: "4.5%",
     textAlign: "left",
     textStyle: {
       fontSize: 40,
@@ -62,8 +63,9 @@ const option: EChartsOption = {
   tooltip: {
     trigger: "axis",
   },
+	
   grid: {
-    left: "2%",
+    left: "3%",
     right: "4%",
     bottom: "3%",
     top: "175px",
@@ -71,7 +73,7 @@ const option: EChartsOption = {
   },
   xAxis: {
     type: "category",
-    boundaryGap: true,
+		boundaryGap: true,
     axisLine: {
       lineStyle: {
         color: "#DDD",
@@ -85,9 +87,7 @@ const option: EChartsOption = {
       "High-value",
       "Enterprise",
     ],
-    axisTick: {
-      alignWithLabel: true,
-    },
+
   },
   yAxis: {
     type: "value",
@@ -95,23 +95,26 @@ const option: EChartsOption = {
     nameGap: 30,
     nameLocation: "end",
     nameTextStyle: {
-      padding: [0, 0, 10, 87],
+      padding: [0, 0, 10, 5],
       fontWeight: 700,
     },
     interval: 20,
     maxInterval: 20,
     minInterval: 20,
-    splitLine: {
-      interval: 20,
+    splitLine: {	
       lineStyle: {
         width: 2,
-        color: "#DDD",
+        color: "#EEE",
+				shadowBlur: 1,
+				shadowColor: "#EEE",
+				shadowOffsetX: -40
       },
     },
     axisLabel: {
       align: "left",
       baseline: "bottom",
       padding: [0, 10, 10, 10],
+			margin: 50,
     },
     position: "left",
   },
@@ -121,7 +124,7 @@ const option: EChartsOption = {
       name: "Direct",
       type: "bar",
       data: [25, 37, 48, 50, 60, 68],
-    },
+		}
   ],
 };
 
