@@ -1,14 +1,15 @@
-import { notFound } from "next/navigation";
+import { getMDXComponents } from "@/app/mdx-components";
+import { HikeHistogramSmallMultiples } from "@/content/charts/hike-histogram-small-multiples/HikeHistogramSmallMultiples";
+import { HikeHistogram } from "@/content/charts/hike-histogram/HikeHistogram";
+import { INaturalistSunburst } from "@/content/charts/inaturalist-sunburst/INaturalistSunburst";
+import { MuchData } from "@/content/charts/much-data/MuchData";
+import Racing from "@/content/charts/racing/Racing";
+import TideCharts from "@/content/charts/tide-charts/TideCharts";
+import TuckedTicks from "@/content/charts/tucked-ticks/TuckedTicks";
+import { getAllCharts, getChartBySlug } from "@/lib/charts";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
-import { getAllCharts, getChartBySlug } from "@/lib/charts";
-import { getMDXComponents } from "@/app/mdx-components";
-import { INaturalistSunburst } from "@/content/charts/inaturalist-sunburst/INaturalistSunburst";
-import { HikeHistogram } from "@/content/charts/hike-histogram/HikeHistogram";
-import { HikeHistogramSmallMultiples } from "@/content/charts/hike-histogram-small-multiples/HikeHistogramSmallMultiples";
-import { MuchData } from "@/content/charts/much-data/MuchData";
-import TideCharts from "@/content/charts/tide-charts/TideCharts";
-import Racing from "@/content/charts/racing/Racing";
+import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
   const charts = getAllCharts();
@@ -31,7 +32,8 @@ export default async function ChartPage({
 
   const components = {
     ...getMDXComponents(),
-		Racing,
+    TuckedTicks,
+    Racing,
     TideCharts,
     MuchData,
     HikeHistogramSmallMultiples,
