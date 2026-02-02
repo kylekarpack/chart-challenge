@@ -13,3 +13,12 @@ import TuckedTicks from "./TuckedTicks";
 <div className="min-h-[700px] w-full">
   <TuckedTicks />
 </div>
+
+
+Takeaways:
+- This was way more difficult than I expected. Getting the ticks to tuck was easy, but getting the spacing between the axis and the series correct was a pain.
+- There might be a better way to do this, but I couldn't find it. The two things I tried were:
+  - Adding a "fake" item to insert some spacing between the Y-axis labels and the first Bainbridge
+  - Extending the grid lines with a shadow blur offset 35px to the left
+
+The last solution ultimately worked, but it is a lot of effort to curate!
