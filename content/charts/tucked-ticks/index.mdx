@@ -19,6 +19,7 @@ Takeaways:
 - This was way more difficult than I expected. Getting the ticks to tuck was easy, but getting the spacing between the axis and the series correct was a pain.
 - There might be a better way to do this, but I couldn't find it. The two things I tried were:
   - Adding a "fake" item to insert some spacing between the Y-axis labels and the first Bainbridge
-  - Extending the grid lines with a shadow blur offset 35px to the left
+  - (ECharts only) Extending the grid lines with a shadow blur offset 35px to the left
+  - (Vega only) Adding xOffset to the series and labelOffset to the axis labels to move them to the right
 
-The last solution ultimately worked, but it is a lot of effort to curate!
+The last two solutions ultimately worked, but they required a lot of effort to curate!
