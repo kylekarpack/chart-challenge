@@ -14,7 +14,7 @@ const enrichedData = data.map((hike) => ({
   year: new Date(hike.date).getFullYear().toString(),
 }));
 
-const Waffle = ({ scaleType }: { scaleType?: "sqrt" | "linear" | "log" }) => {
+const Waffle = ({ scaleType, darkMode }: { scaleType?: "sqrt" | "linear" | "log", darkMode?: boolean }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [sortBy, setSortBy] = useState<"x" | "z">("x");
@@ -22,6 +22,8 @@ const Waffle = ({ scaleType }: { scaleType?: "sqrt" | "linear" | "log" }) => {
 
   useEffect(() => {
     if (enrichedData === undefined) return;
+
+    const darkModeDefault = darkMode ? reverse : !reverse;
 
     const plot = Plot.plot({
       width: 1200,
@@ -41,17 +43,17 @@ const Waffle = ({ scaleType }: { scaleType?: "sqrt" | "linear" | "log" }) => {
         legend: true,
         label: "Distance (miles)",
         type: scaleType,
-        reverse: !reverse
+        reverse: darkModeDefault,
       },
       marks: [
-		Plot.ruleY([0]),
+        Plot.ruleY([0]),
         Plot.waffleY(enrichedData, {
           ...Plot.binX(
             { y: "count", fill: "z", sort: sortBy },
             {
               x: "date",
               z: "distanceInMiles",
-            }
+            },
           ),
           tip: {
             format: {
@@ -81,28 +83,28 @@ const Waffle = ({ scaleType }: { scaleType?: "sqrt" | "linear" | "log" }) => {
     });
     containerRef.current && containerRef.current.append(plot);
     return () => plot.remove();
-  }, [sortBy, reverse]);
+  }, [sortBy, reverse, darkMode]);
 
   return (
     <div>
       <div className="flex gap-4 items-center mb-4">
-      <select
-        value={sortBy}
-        onChange={(e) => setSortBy(e.target.value as "x" | "z")}
-        className="border border-gray-300 rounded-md py-1 px-2"
-      >
-        <option value="x">Sort by Date</option>
-        <option value="z">Sort by Distance</option>
-      </select>
-      <label>
-        <input
-          type="checkbox"
-          checked={reverse}
-          onChange={(e) => setReverse(e.target.checked)}
-          className="mr-2"
-        />
-        I don&apos;t like good advice, reverse it back
-      </label>
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value as "x" | "z")}
+          className={`border border-gray-300 rounded-md py-1 px-2 ${darkMode ? "bg-gray-800 text-white" : ""}`}
+        >
+          <option value="x">Sort by Date</option>
+          <option value="z">Sort by Distance</option>
+        </select>
+        <label>
+          <input
+            type="checkbox"
+            checked={reverse}
+            onChange={(e) => setReverse(e.target.checked)}
+            className="mr-2"
+          />
+          I don&apos;t like good advice, reverse it back
+        </label>
       </div>
       <div ref={containerRef} />
     </div>
@@ -110,14 +112,28 @@ const Waffle = ({ scaleType }: { scaleType?: "sqrt" | "linear" | "log" }) => {
 };
 
 export const BetterColorScales = () => {
+  const [darkMode, setDarkMode] = useState(false);
   return (
     <div>
-      <p className="mb-4 font-bold text-lg">Inverted color scale (sqrt)</p>
-      <Waffle scaleType="sqrt" />
-      <p className="mb-4 font-bold text-lg">Inverted color scale (linear)</p>
-      <Waffle scaleType="linear" />
-      <p className="mb-4 font-bold text-lg">Inverted color scale (log)</p>
-      <Waffle scaleType="log" />
+      <div className="flex gap-4 items-center mb-4">
+        <label>
+          <input
+            type="checkbox"
+            checked={darkMode}
+            onChange={(e) => setDarkMode(e.target.checked)}
+            className="mr-2"
+          />
+          Dark mode
+        </label>
+      </div>
+      <div className={`p-4 ${darkMode ? "bg-gray-900 text-white" : ""}`}>
+        <p className="mb-4 font-bold text-lg">Inverted color scale (sqrt)</p>
+        <Waffle scaleType="sqrt" darkMode={darkMode} />
+        <p className="mb-4 font-bold text-lg">Inverted color scale (linear)</p>
+        <Waffle scaleType="linear" darkMode={darkMode} />
+        <p className="mb-4 font-bold text-lg">Inverted color scale (log)</p>
+        <Waffle scaleType="log" darkMode={darkMode} />
+      </div>
     </div>
   );
 };
