@@ -70,6 +70,7 @@ const Waffle = ({ scaleType, darkMode }: { scaleType?: "sqrt" | "linear" | "log"
               Elevation: "ascent",
               Time: "timeInHours",
             },
+            className: darkMode ? "text-black" : "",
           },
         }),
         Plot.axisY({ anchor: "left", label: "Count" }),
