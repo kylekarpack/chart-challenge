@@ -1,5 +1,5 @@
 import { getMDXComponents } from "@/app/mdx-components";
-import { ExpertAdvice } from "@/content/charts/expert-advice/ExpertAdvice";
+import { BetterColorScales } from "@/content/charts/better-color-scales/BetterColorScales";
 import { HikeHistogramSmallMultiples } from "@/content/charts/hike-histogram-small-multiples/HikeHistogramSmallMultiples";
 import { HikeHistogram } from "@/content/charts/hike-histogram/HikeHistogram";
 import { INaturalistSunburst } from "@/content/charts/inaturalist-sunburst/INaturalistSunburst";
@@ -33,7 +33,7 @@ export default async function ChartPage({
 
   const components = {
     ...getMDXComponents(),
-    ExpertAdvice,
+    BetterColorScales,
     TuckedTicks,
     Racing,
     TideCharts,
