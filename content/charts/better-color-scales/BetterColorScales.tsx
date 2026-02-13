@@ -18,6 +18,7 @@ const Waffle = ({ scaleType }: { scaleType?: "sqrt" | "linear" | "log" }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [sortBy, setSortBy] = useState<"x" | "z">("x");
+  const [reverse, setReverse] = useState(false);
 
   useEffect(() => {
     if (enrichedData === undefined) return;
@@ -40,7 +41,7 @@ const Waffle = ({ scaleType }: { scaleType?: "sqrt" | "linear" | "log" }) => {
         legend: true,
         label: "Distance (miles)",
         type: scaleType,
-        reverse: true
+        reverse: !reverse
       },
       marks: [
 		Plot.ruleY([0]),
@@ -80,18 +81,29 @@ const Waffle = ({ scaleType }: { scaleType?: "sqrt" | "linear" | "log" }) => {
     });
     containerRef.current && containerRef.current.append(plot);
     return () => plot.remove();
-  }, [sortBy]);
+  }, [sortBy, reverse]);
 
   return (
     <div>
+      <div className="flex gap-4 items-center mb-4">
       <select
         value={sortBy}
         onChange={(e) => setSortBy(e.target.value as "x" | "z")}
-        className="mb-4 border border-gray-300 rounded-md py-1 px-2"
+        className="border border-gray-300 rounded-md py-1 px-2"
       >
         <option value="x">Sort by Date</option>
         <option value="z">Sort by Distance</option>
       </select>
+      <label>
+        <input
+          type="checkbox"
+          checked={reverse}
+          onChange={(e) => setReverse(e.target.checked)}
+          className="mr-2"
+        />
+        I don&apos;t like good advice, reverse it back
+      </label>
+      </div>
       <div ref={containerRef} />
     </div>
   );
