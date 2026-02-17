@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { color } from "d3";
 import { EChartsOption, getInstanceByDom, graphic, init } from "echarts";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -282,4 +283,57 @@ const Racing = () => {
 	);
 };
 
-export default Racing;
+export { Racing };
+
+export default function RacingPage() {
+  return (
+    <>
+      <p className="text-base leading-7 mb-4 text-gray-700">
+        Racing bar charts are pretty silly, so of course I wanted to make one
+        myself! I saw one on{" "}
+        <Link
+          href="https://flourish.studio/visualisations/bar-chart-race/"
+          className="text-blue-600 hover:text-blue-800 underline"
+        >
+          Flourish
+        </Link>{" "}
+        a few years ago, and it sure made for a fun demo.
+      </p>
+      <div className="min-h-[700px] w-full">
+        <Racing />
+      </div>
+      <div className="mt-8" />
+      <h3 className="text-2xl font-semibold mt-5 mb-2 text-gray-800">
+        Some takeaways:
+      </h3>
+      <ul className="list-disc ml-8 mb-2 space-y-1 text-gray-700">
+        <li className="pl-2 pt-2">
+          Acquiring, cleaning, and processing the data was way more difficult
+          than making the charts
+        </li>
+        <li className="pl-2 pt-2">
+          ECharts effortlessly did a ton of the heavy lifting regarding
+          animations and transitions
+        </li>
+        <li className="pl-2 pt-2">
+          Racing bar charts are kind of ridiculous, and they aren&apos;t a
+          terribly useful data visualization, but they&apos;re fun!
+        </li>
+        <li className="pl-2 pt-2">
+          There are very few data sets for which this visualization makes sense.
+          It would need to measure something that accumulates over time, but on
+          a data set with a limited number of categories (sports leagues,
+          countries, etc.)
+        </li>
+        <li className="pl-2 pt-2">
+          I&apos;m a Bayern fan - it gets better as it goes!{" "}
+          <img
+            className="inline w-[24px] h-[31px]"
+            src="https://tmssl.akamaized.net//images/wappen/medium/27.png"
+            alt="Bayern badge"
+          />
+        </li>
+      </ul>
+    </>
+  );
+}

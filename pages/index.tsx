@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getAllCharts, type Chart } from "@/lib/charts";
+import { getAllCharts, type ChartMeta } from "@/lib/charts";
 
 export default function ChartsPage() {
   const charts = getAllCharts();
@@ -25,11 +25,12 @@ export default function ChartsPage() {
               </p>
             </div>
           ) : (
-            charts.map((chart: Chart) => (
+            charts.map((chart: ChartMeta) => (
               <article
                 key={chart.slug}
-                className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-6">
-                <Link href={`/${chart.slug}`}>
+                className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-6"
+              >
+                <Link href={`/${chart.slug}/`}>
                   <h2 className="text-2xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
                     {chart.title}
                   </h2>
@@ -48,14 +49,16 @@ export default function ChartsPage() {
                   {chart.summary}
                 </p>
                 <Link
-                  href={`/${chart.slug}`}
-                  className="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center">
+                  href={`/${chart.slug}/`}
+                  className="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center"
+                >
                   Read more
                   <svg
                     className="w-4 h-4 ml-1"
                     fill="none"
                     stroke="currentColor"
-                    viewBox="0 0 24 24">
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"

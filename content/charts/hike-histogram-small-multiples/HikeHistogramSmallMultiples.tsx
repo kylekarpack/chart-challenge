@@ -382,3 +382,46 @@ export const HikeHistogramSmallMultiples = () => {
     </div>
   );
 };
+
+export default function HikeHistogramSmallMultiplesPage() {
+  return (
+    <>
+      <div className="min-h-[800px] w-full">
+        <p className="text-base leading-7 mb-4 text-gray-700">
+          The primary purpose of this edition is to experiment with some
+          advanced features of Observable Plot.
+        </p>
+        <HikeHistogramSmallMultiples />
+      </div>
+      <h3 className="text-2xl font-semibold mt-5 mb-2 text-gray-800">
+        Things I learned:
+      </h3>
+      <ul className="list-disc ml-8 mb-2 space-y-1 text-gray-700">
+        <li className="pl-2 pt-2">
+          For small multiples charts, there are some considerations that need to
+          be made when jamming this much infomation into a single page
+          <ul className="list-disc ml-8 mt-2 space-y-1">
+            <li className="pl-2 pt-2">Axis labels needed to be re-worked</li>
+            <li className="pl-2 pt-2">
+              This approach wouldn&apos;t work for many years of data. Imagine if
+              I had been tracking for 20 or 30 years. I&apos;d need to wrap the
+              charts, or facet by multi-year time periods
+            </li>
+          </ul>
+        </li>
+        <li className="pl-2 pt-2">
+          It was still hard to find an effective way to display four dimensions
+          (year, duration, time, and ascent) in a single chart
+        </li>
+        <li className="pl-2 pt-2">
+          The transformations in Observable Plot are terse and powerful, but can
+          be a little bit tricky to get the hang of
+        </li>
+        <li className="pl-2 pt-2">
+          Observable Plot&apos;s waffle chart is a little bit buggy, as are
+          tooltips on charts with window transforms
+        </li>
+      </ul>
+    </>
+  );
+}

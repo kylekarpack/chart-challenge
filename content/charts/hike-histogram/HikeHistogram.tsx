@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import * as Plot from "@observablehq/plot";
 import { useEffect, useRef } from "react";
 import data from "./data.json";
@@ -158,3 +159,41 @@ export const HikeHistogram = () => {
     </div>
   );
 };
+
+export default function HikeHistogramPage() {
+  return (
+    <>
+      <p className="text-base leading-7 mb-4 text-gray-700">
+        I&apos;ve been hiking a fair bit this decade, and I&apos;ve been
+        tracking my hikes with Gaia GPS. Curious to see some stats on my hikes,
+        I created some histograms to visualize various metrics.
+      </p>
+      <p className="text-base leading-7 mb-4 text-gray-700">
+        All charts are made with{" "}
+        <Link
+          href="https://observablehq.com/plot"
+          className="text-blue-600 hover:text-blue-800 underline"
+        >
+          Observable Plot
+        </Link>
+        .
+      </p>
+      <div className="min-h-[800px] w-full mt-12">
+        <HikeHistogram />
+      </div>
+      <h3 className="text-2xl font-semibold mt-5 mb-2 text-gray-800">
+        Things I learned:
+      </h3>
+      <ul className="list-disc ml-8 mb-2 space-y-1 text-gray-700">
+        <li className="pl-2 pt-2">
+          Axis scale for histograms can be tricky, especially when data
+          doesn&apos;t follow a normal distribution
+        </li>
+        <li className="pl-2 pt-2">Most of my hikes were pretty easy!</li>
+        <li className="pl-2 pt-2">
+          Charts made in Observable Plot look really nice out-of-the-box
+        </li>
+      </ul>
+    </>
+  );
+}

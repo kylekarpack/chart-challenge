@@ -138,3 +138,16 @@ export const BetterColorScales = () => {
     </div>
   );
 };
+
+export default function BetterColorScalesPage() {
+  return (
+    <>
+      <p className="text-base leading-7 mb-4 text-gray-700">
+        Better color scales than ever before
+      </p>
+      <div className="min-h-[800px] w-full">
+        <BetterColorScales />
+      </div>
+    </>
+  );
+}

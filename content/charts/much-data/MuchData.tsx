@@ -311,3 +311,43 @@ export const MuchData = () => {
     </div>
   );
 };
+
+export default function MuchDataPage() {
+  return (
+    <>
+      <p className="text-base leading-7 mb-4 text-gray-700">
+        How do a few different libraries handle large datasets? I didn&apos;t
+        take the time to actually instrument the rendering performance, so the
+        results are purely vibes-based.
+      </p>
+      <p className="text-base leading-7 mb-4 text-gray-700">
+        Excuse the terrible UX here. As you click the buttons, charts will
+        render. The performance may be terrible and you won&apos;t receive any
+        loading feedback!
+      </p>
+      <div className="min-h-[800px] w-full">
+        <MuchData />
+      </div>
+      <div className="mt-8" />
+      <h3 className="text-2xl font-semibold mt-5 mb-2 text-gray-800">
+        Some takeaways:
+      </h3>
+      <ul className="list-disc ml-8 mb-2 space-y-1 text-gray-700">
+        <li className="pl-2 pt-2">
+          Canvas is broadly superior to SVG for rendering large datasets
+          (fairly obvious, but still nice to see)
+        </li>
+        <li className="pl-2 pt-2">
+          Rendering performance varies a lot between libraries. Nivo and
+          Vega&apos;s SVG implementations are unacceptable on large datasets,
+          whereas ECharts and Observable Plot are still quite performant.
+          <ul className="list-disc ml-8 mt-2 space-y-1">
+            <li className="pl-2 pt-2">
+              Everything using canvas handled large datasets well
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </>
+  );
+}

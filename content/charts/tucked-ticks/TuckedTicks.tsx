@@ -229,4 +229,48 @@ const TuckedTicks = () => {
   );
 };
 
-export default TuckedTicks;
+export { TuckedTicks };
+
+export default function TuckedTicksPage() {
+  return (
+    <>
+      <p className="text-base leading-7 mb-4 text-gray-700">
+        Let&apos;s tuck those tick marks away!
+      </p>
+      <div className="mt-12" />
+      <div className="min-h-[700px] w-full">
+        <TuckedTicks />
+      </div>
+      <h3 className="text-2xl font-semibold mt-5 mb-2 text-gray-800">
+        Takeaways:
+      </h3>
+      <ul className="list-disc ml-8 mb-2 space-y-1 text-gray-700">
+        <li className="pl-2 pt-2">
+          This was way more difficult than I expected. Getting the ticks to tuck
+          was easy, but getting the spacing between the axis and the series
+          correct was a pain.
+        </li>
+        <li className="pl-2 pt-2">
+          There might be a better way to do this, but I couldn&apos;t find it.
+          The two things I tried were:
+          <ul className="list-disc ml-8 mt-2 space-y-1">
+            <li className="pl-2 pt-2">
+              Adding a &quot;fake&quot; item to insert some spacing between the
+              Y-axis labels and the first Bainbridge
+            </li>
+            <li className="pl-2 pt-2">
+              (ECharts only) Extending the grid lines with a shadow blur offset
+              35px to the left
+            </li>
+            <li className="pl-2 pt-2">
+              (Vega only) Adding xOffset to the series and labelOffset to the
+              axis labels to move them to the right
+            </li>
+          </ul>
+          The last two solutions ultimately worked, but they required a lot of
+          effort to curate!
+        </li>
+      </ul>
+    </>
+  );
+}

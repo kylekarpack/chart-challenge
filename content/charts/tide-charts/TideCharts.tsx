@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { EChartsOption, getInstanceByDom, init } from "echarts";
 import { useEffect, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
@@ -230,4 +231,50 @@ const TideCharts = () => {
   );
 };
 
-export default TideCharts;
+export { TideCharts };
+
+export default function TideChartsPage() {
+  return (
+    <>
+      <p className="text-base leading-7 mb-4 text-gray-700">
+        I recently saw a beautiful{" "}
+        <Link
+          href="https://www.tidelog.com/product/puget-sound-2/"
+          className="text-blue-600 hover:text-blue-800 underline"
+        >
+          TideLog
+        </Link>{" "}
+        book in a bookstore on Bainbridge Island. I wasn&apos;t able to fully
+        replicate the gorgeous design that went into its charts, but I wanted to
+        see if could make them interactive.
+      </p>
+      <p className="text-base leading-7 mb-4 text-gray-700">
+        Uses NOAA&apos;s{" "}
+        <Link
+          href="https://api.tidesandcurrents.noaa.gov/api/prod/"
+          className="text-blue-600 hover:text-blue-800 underline"
+        >
+          tides and currents API
+        </Link>{" "}
+        to get data for the current day for Seattle.
+      </p>
+      <div className="min-h-[700px] w-full">
+        <TideCharts />
+      </div>
+      <div className="mt-8" />
+      <h3 className="text-2xl font-semibold mt-5 mb-2 text-gray-800">
+        Some takeaways:
+      </h3>
+      <ul className="list-disc ml-8 mb-2 space-y-1 text-gray-700">
+        <li className="pl-2 pt-2">
+          Replicating a precise chart is pretty difficult and can require a lot
+          of configuration
+        </li>
+        <li className="pl-2 pt-2">
+          ECharts has a lot of functionality for design, but some is a little
+          hard to find in the documentation
+        </li>
+      </ul>
+    </>
+  );
+}
