@@ -1,12 +1,13 @@
-import type { ComponentType } from "react";
 import BetterColorScalesPage from "@/content/charts/better-color-scales/BetterColorScales";
-import HikeHistogramPage from "@/content/charts/hike-histogram/HikeHistogram";
+import DatabenchPage from "@/content/charts/databench/Databench";
 import HikeHistogramSmallMultiplesPage from "@/content/charts/hike-histogram-small-multiples/HikeHistogramSmallMultiples";
+import HikeHistogramPage from "@/content/charts/hike-histogram/HikeHistogram";
 import INaturalistSunburstPage from "@/content/charts/inaturalist-sunburst/INaturalistSunburst";
 import MuchDataPage from "@/content/charts/much-data/MuchData";
 import RacingPage from "@/content/charts/racing/Racing";
 import TideChartsPage from "@/content/charts/tide-charts/TideCharts";
 import TuckedTicksPage from "@/content/charts/tucked-ticks/TuckedTicks";
+import type { ComponentType } from "react";
 
 export interface Chart {
   slug: string;
@@ -19,6 +20,13 @@ export interface Chart {
 export type ChartMeta = Omit<Chart, "PageContent">;
 
 const chartList: Chart[] = [
+  {
+    slug: "databench",
+    title: "Databench",
+    publishedAt: "2026-02-17",
+    summary: "Benchmark some data processing options",
+    PageContent: DatabenchPage,
+  },
   {
     slug: "better-color-scales",
     title: "Better Color Scales",
@@ -75,7 +83,7 @@ const chartList: Chart[] = [
     publishedAt: "2025-12-22",
     summary: "Histograms of various hiking metrics.",
     PageContent: HikeHistogramPage,
-  },
+  }
 ].sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1));
 
 export function getAllCharts(): ChartMeta[] {
