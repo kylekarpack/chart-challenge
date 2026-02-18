@@ -37,16 +37,14 @@ const Databench = ({ tasks, title }: DatabenchProps) => {
     const plot = Plot.plot({
       width: 1200,
       height: 400,
-      marginBottom: 80,
       marginLeft: 60,
       x: {
         type: "band",
         label: "Task",
       },
       y: {
-        grid: true,
         label: "Operations per second",
-        type: "log",
+        type: "sqrt",
       },
       color: {
         scheme: "Observable10",
@@ -70,14 +68,23 @@ const Databench = ({ tasks, title }: DatabenchProps) => {
   return (
     <div className="mb-12">
       {title && (
-        <h3 className="text-lg font-semibold mb-2 text-gray-800">{title.replace(/people-(\d+)\.csv/, "(Row count: $1)")}</h3>
+        <>
+          <h3 className="text-lg font-semibold text-gray-800">
+            {title.replace(/people-(\d+)\.csv/, "(Row count: $1)")}
+          </h3>
+          <h4 className="text-sm text-gray-500 mb-2 ">
+            Operations per second (higher is better)
+          </h4>
+        </>
       )}
       <div ref={containerRef} />
     </div>
   );
 };
 
-function getSuites(data: BenchmarkData): Array<{ name: string; tasks: BenchmarkTask[] }> {
+function getSuites(
+  data: BenchmarkData,
+): Array<{ name: string; tasks: BenchmarkTask[] }> {
   const suites: Array<{ name: string; tasks: BenchmarkTask[] }> = [];
   for (const file of data.files) {
     for (const suite of file.suites) {
@@ -100,11 +107,7 @@ export default function DatabenchPage() {
       </p>
       <div className="min-h-[800px] w-full">
         {suites.map((suite) => (
-          <Databench
-            key={suite.name}
-            tasks={suite.tasks}
-            title={suite.name}
-          />
+          <Databench key={suite.name} tasks={suite.tasks} title={suite.name} />
         ))}
       </div>
     </>
