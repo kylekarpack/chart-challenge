@@ -48,7 +48,28 @@ function getSuites(
 
 const suites = getSuites(data as BenchmarkData);
 
-function DatabenchChart({ tasks, title }: { tasks: BenchmarkTask[]; title?: string }) {
+const colorMap = {
+  "js (basic)": "rgb(255, 107, 107)",
+  papaparse: "rgb(59, 215, 168)",
+  arquero: "rgb(255, 215, 0)",
+  "polars (string)": "rgb(52, 235, 130)",
+  "polars (Engine)": "rgb(52, 235, 130)",
+  "polars (file)": "rgb(180, 102, 204)",
+  "polars (Series)": "rgb(180, 102, 255)",
+  duckdb: "rgb(102, 197, 204)",
+  datafusion: "rgb(255, 159, 67)",
+  "datafusion (node bindings)": "rgb(255, 159, 67)",
+  "datafusion (external table)": "rgb(255, 159, 67)",
+  danfo: "rgb(70, 70, 222)",
+};
+
+function DatabenchChart({
+  tasks,
+  title,
+}: {
+  tasks: BenchmarkTask[];
+  title?: string;
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -59,12 +80,19 @@ function DatabenchChart({ tasks, title }: { tasks: BenchmarkTask[]; title?: stri
       height: 400,
       marginLeft: 60,
       marginBottom: 80,
-      x: { type: "band", label: "Task", tickRotate: -25},
+      x: { type: "band", label: "Task", tickRotate: -25 },
       y: { label: "Operations per second", type: "sqrt" },
       color: { scheme: "Observable10", legend: true, label: "Task" },
       marks: [
         Plot.ruleY([0]),
-        Plot.barY(tasks, { x: "name", y: "opsPerSecond", tip: true, fill: "name" }),
+        Plot.barY(tasks, {
+          x: "name",
+          y: "opsPerSecond",
+          tip: true,
+          fill(d, i) {
+            return colorMap[d.name as keyof typeof colorMap];
+          },
+        }),
       ],
     });
     containerRef.current.append(plot);
@@ -96,7 +124,11 @@ function ChartContent() {
       </p>
       <div className="min-h-[800px] w-full">
         {suites.map((suite) => (
-          <DatabenchChart key={suite.name} tasks={suite.tasks} title={suite.name} />
+          <DatabenchChart
+            key={suite.name}
+            tasks={suite.tasks}
+            title={suite.name}
+          />
         ))}
       </div>
     </>
@@ -108,13 +140,18 @@ export default function Page() {
     <ChartPageLayout title={meta.title} publishedAt={meta.publishedAt}>
       <ChartContent />
 
-      <h3 className="text-2xl font-semibold mt-5 mb-2 text-gray-800">Takeaways:</h3>
+      <h3 className="text-2xl font-semibold mt-5 mb-2 text-gray-800">
+        Takeaways:
+      </h3>
       <ul className="list-disc ml-8 mb-2 space-y-1 text-gray-700">
         <li className="pl-2 pt-2">
-          Raw JavaScript is the fastest on small datasets. Somewhere between 1000 and 10k rows, Rust-based options become markedly faster.
+          Raw JavaScript is the fastest on small datasets. Somewhere between
+          1000 and 10k rows, Rust-based options become markedly faster.
         </li>
         <li className="pl-2 pt-2">
-          Apache Datafusion was hard to use, but was lightning fast on massive datasets. On 1M rows, it parsed 25x faster and ran statistical operations almost 2000x faster than raw JS. 
+          Apache Datafusion was hard to use, but was lightning fast on massive
+          datasets. On 1M rows, it parsed 25x faster and ran statistical
+          operations almost 2000x faster than raw JS.
         </li>
         <li className="pl-2 pt-2">
           Apache Arrow-based solutions are pretty great for large datasets.
@@ -123,7 +160,8 @@ export default function Page() {
           JS-based dataframe libraries cannot handle large datasets well.
         </li>
         <li className="pl-2 pt-2">
-          DuckDB was sort of middle of the pack in most cases. It was nice to use though!
+          DuckDB was sort of middle of the pack in most cases. It was nice to
+          use though!
         </li>
       </ul>
     </ChartPageLayout>
