@@ -1,9 +1,28 @@
 import Link from "next/link";
-import { getAllCharts, type ChartMeta } from "@/lib/charts";
+import type { ChartMeta } from "@/lib/chart-meta";
+import { meta as databenchMeta } from "./databench";
+import { meta as betterColorScalesMeta } from "./better-color-scales";
+import { meta as tuckedTicksMeta } from "./tucked-ticks";
+import { meta as racingMeta } from "./racing";
+import { meta as tideChartsMeta } from "./tide-charts";
+import { meta as hikeHistogramSmallMultiplesMeta } from "./hike-histogram-small-multiples";
+import { meta as muchDataMeta } from "./much-data";
+import { meta as inaturalistSunburstMeta } from "./inaturalist-sunburst";
+import { meta as hikeHistogramMeta } from "./hike-histogram";
+
+const allCharts: ChartMeta[] = [
+  databenchMeta,
+  betterColorScalesMeta,
+  tuckedTicksMeta,
+  racingMeta,
+  tideChartsMeta,
+  hikeHistogramSmallMultiplesMeta,
+  muchDataMeta,
+  inaturalistSunburstMeta,
+  hikeHistogramMeta,
+].sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1));
 
 export default function ChartsPage() {
-  const charts = getAllCharts();
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
@@ -18,14 +37,14 @@ export default function ChartsPage() {
         </div>
 
         <div className="space-y-8">
-          {charts.length === 0 ? (
+          {allCharts.length === 0 ? (
             <div className="text-center py-12">
               <p className="text-gray-500 text-lg">
                 No charts yet. Check back soon!
               </p>
             </div>
           ) : (
-            charts.map((chart: ChartMeta) => (
+            allCharts.map((chart: ChartMeta) => (
               <article
                 key={chart.slug}
                 className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-6"

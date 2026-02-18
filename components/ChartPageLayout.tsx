@@ -1,46 +1,17 @@
-import { getChartBySlug, getAllCharts } from "@/lib/charts";
 import Link from "next/link";
-import { GetStaticPaths, GetStaticProps } from "next";
+import type { ReactNode } from "react";
 
-export const getStaticPaths: GetStaticPaths = () => {
-  const charts = getAllCharts();
-  return {
-    paths: charts.map((chart) => ({ params: { slug: chart.slug } })),
-    fallback: false,
-  };
-};
+interface ChartPageLayoutProps {
+  readonly title: string;
+  readonly publishedAt: string;
+  readonly children: ReactNode;
+}
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const slug = typeof params?.slug === "string" ? params.slug : "";
-  const chart = getChartBySlug(slug);
-  if (!chart) {
-    return { notFound: true };
-  }
-  return {
-    props: {
-      slug: chart.slug,
-      title: chart.title,
-      publishedAt: chart.publishedAt,
-      summary: chart.summary,
-    },
-  };
-};
-
-export default function ChartPage({
-  slug,
+export default function ChartPageLayout({
   title,
   publishedAt,
-}: {
-  slug: string;
-  title: string;
-  publishedAt: string;
-  summary: string;
-}) {
-  const chart = getChartBySlug(slug);
-  if (!chart) return null;
-
-  const PageContent = chart.PageContent;
-
+  children,
+}: ChartPageLayoutProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <article className="max-w-6xl mx-auto">
@@ -76,7 +47,7 @@ export default function ChartPage({
         </header>
 
         <div className="prose prose-lg max-w-none bg-white rounded-lg shadow-md p-8">
-          <PageContent />
+          {children}
         </div>
       </article>
     </div>

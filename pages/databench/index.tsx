@@ -1,10 +1,18 @@
 "use client";
 
+import ChartPageLayout from "@/components/ChartPageLayout";
 import * as Plot from "@observablehq/plot";
 import { useEffect, useRef } from "react";
 import data from "./benchmark-data.json";
 
-export interface BenchmarkTask {
+export const meta = {
+  slug: "databench",
+  title: "Databench",
+  publishedAt: "2026-02-17",
+  summary: "Benchmark some data processing options",
+} as const;
+
+interface BenchmarkTask {
   name: string;
   opsPerSecond: number;
   [key: string]: unknown;
@@ -23,12 +31,24 @@ interface BenchmarkData {
   files: BenchmarkFile[];
 }
 
-interface DatabenchProps {
-  tasks: BenchmarkTask[];
-  title?: string;
+function getSuites(
+  data: BenchmarkData,
+): Array<{ name: string; tasks: BenchmarkTask[] }> {
+  const suites: Array<{ name: string; tasks: BenchmarkTask[] }> = [];
+  for (const file of data.files) {
+    for (const suite of file.suites) {
+      suites.push({
+        name: suite.name,
+        tasks: suite.tasks as BenchmarkTask[],
+      });
+    }
+  }
+  return suites;
 }
 
-const Databench = ({ tasks, title }: DatabenchProps) => {
+const suites = getSuites(data as BenchmarkData);
+
+function DatabenchChart({ tasks, title }: { tasks: BenchmarkTask[]; title?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -38,27 +58,12 @@ const Databench = ({ tasks, title }: DatabenchProps) => {
       width: 1200,
       height: 400,
       marginLeft: 60,
-      x: {
-        type: "band",
-        label: "Task",
-      },
-      y: {
-        label: "Operations per second",
-        type: "sqrt",
-      },
-      color: {
-        scheme: "Observable10",
-        legend: true,
-        label: "Task",
-      },
+      x: { type: "band", label: "Task" },
+      y: { label: "Operations per second", type: "sqrt" },
+      color: { scheme: "Observable10", legend: true, label: "Task" },
       marks: [
         Plot.ruleY([0]),
-        Plot.barY(tasks, {
-          x: "name",
-          y: "opsPerSecond",
-          tip: true,
-          fill: "name",
-        }),
+        Plot.barY(tasks, { x: "name", y: "opsPerSecond", tip: true, fill: "name" }),
       ],
     });
     containerRef.current.append(plot);
@@ -80,26 +85,9 @@ const Databench = ({ tasks, title }: DatabenchProps) => {
       <div ref={containerRef} />
     </div>
   );
-};
-
-function getSuites(
-  data: BenchmarkData,
-): Array<{ name: string; tasks: BenchmarkTask[] }> {
-  const suites: Array<{ name: string; tasks: BenchmarkTask[] }> = [];
-  for (const file of data.files) {
-    for (const suite of file.suites) {
-      suites.push({
-        name: suite.name,
-        tasks: suite.tasks as BenchmarkTask[],
-      });
-    }
-  }
-  return suites;
 }
 
-const suites = getSuites(data as BenchmarkData);
-
-export default function DatabenchPage() {
+function ChartContent() {
   return (
     <>
       <p className="text-base leading-7 mb-4 text-gray-700">
@@ -107,9 +95,17 @@ export default function DatabenchPage() {
       </p>
       <div className="min-h-[800px] w-full">
         {suites.map((suite) => (
-          <Databench key={suite.name} tasks={suite.tasks} title={suite.name} />
+          <DatabenchChart key={suite.name} tasks={suite.tasks} title={suite.name} />
         ))}
       </div>
     </>
+  );
+}
+
+export default function Page() {
+  return (
+    <ChartPageLayout title={meta.title} publishedAt={meta.publishedAt}>
+      <ChartContent />
+    </ChartPageLayout>
   );
 }
