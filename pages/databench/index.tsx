@@ -117,7 +117,13 @@ export default function Page() {
           Apache Datafusion was hard to use, but was lightning fast on massive datasets. On 1M rows, it parsed 25x faster and ran statistical operations almost 2000x faster than raw JS. 
         </li>
         <li className="pl-2 pt-2">
+          Apache Arrow-based solutions are pretty great for large datasets.
+        </li>
+        <li className="pl-2 pt-2">
           JS-based dataframe libraries cannot handle large datasets well.
+        </li>
+        <li className="pl-2 pt-2">
+          DuckDB was sort of middle of the pack in most cases. It was nice to use though!
         </li>
       </ul>
     </ChartPageLayout>
