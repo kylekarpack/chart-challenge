@@ -58,7 +58,8 @@ function DatabenchChart({ tasks, title }: { tasks: BenchmarkTask[]; title?: stri
       width: 1200,
       height: 400,
       marginLeft: 60,
-      x: { type: "band", label: "Task" },
+      marginBottom: 80,
+      x: { type: "band", label: "Task", tickRotate: -25},
       y: { label: "Operations per second", type: "sqrt" },
       color: { scheme: "Observable10", legend: true, label: "Task" },
       marks: [
@@ -106,6 +107,19 @@ export default function Page() {
   return (
     <ChartPageLayout title={meta.title} publishedAt={meta.publishedAt}>
       <ChartContent />
+
+      <h3 className="text-2xl font-semibold mt-5 mb-2 text-gray-800">Takeaways:</h3>
+      <ul className="list-disc ml-8 mb-2 space-y-1 text-gray-700">
+        <li className="pl-2 pt-2">
+          Raw JavaScript is the fastest on small datasets. Somewhere between 1000 and 10k rows, Rust-based options become markedly faster.
+        </li>
+        <li className="pl-2 pt-2">
+          Apache Datafusion was hard to use, but was lightning fast on massive datasets. On 1M rows, it parsed 25x faster and ran statistical operations almost 2000x faster than raw JS. 
+        </li>
+        <li className="pl-2 pt-2">
+          JS-based dataframe libraries cannot handle large datasets well.
+        </li>
+      </ul>
     </ChartPageLayout>
   );
 }
