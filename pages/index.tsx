@@ -9,19 +9,21 @@ import { meta as hikeHistogramSmallMultiplesMeta } from "./hike-histogram-small-
 import { meta as muchDataMeta } from "./much-data";
 import { meta as inaturalistSunburstMeta } from "./inaturalist-sunburst";
 import { meta as hikeHistogramMeta } from "./hike-histogram";
-import { meta as terminalMeta } from "./terminal";
+import { meta as claudeMeta } from "./claude";
 
 const allCharts: ChartMeta[] = [
+  claudeMeta,
+  databenchMeta,
+  betterColorScalesMeta,
+  tuckedTicksMeta,
+  racingMeta,
+  tideChartsMeta,
+  hikeHistogramSmallMultiplesMeta,
+  muchDataMeta,
+  inaturalistSunburstMeta,
+  hikeHistogramMeta,
 	terminalMeta,
-	databenchMeta,
-	betterColorScalesMeta,
-	tuckedTicksMeta,
-	racingMeta,
-	tideChartsMeta,
-	hikeHistogramSmallMultiplesMeta,
-	muchDataMeta,
-	inaturalistSunburstMeta,
-	hikeHistogramMeta,
+import { meta as terminalMeta } from "./terminal";
 ].sort((a, b) => (a.publishedAt < b.publishedAt ? 1 : -1));
 
 export default function ChartsPage() {
