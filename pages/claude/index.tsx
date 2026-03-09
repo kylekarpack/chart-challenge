@@ -295,7 +295,7 @@ export default function Page() {
       <p className="text-base leading-7 mb-4 text-gray-700">
         I had an interesting chat with a friend this weekend about household
         spending by category. He went into Claude and immediately produced a
-        compelling visualization:{" "}
+        compelling visualization and report (screenshot below):{" "}
         <Link
           href="https://claude.ai/public/artifacts/c4ebed8b-96f3-4974-8057-7ffca3acc3d7"
           className="text-blue-600 hover:text-blue-800 underline"
