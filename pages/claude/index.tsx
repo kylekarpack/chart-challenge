@@ -302,8 +302,17 @@ export default function Page() {
         >
           https://claude.ai/public/artifacts/c4ebed8b-96f3-4974-8057-7ffca3acc3d7
         </Link>
-        . <Image src="/images/claude-chart.png" alt="Claude 1" width={1000} height={1000} />
+        .{" "}
+        <Image
+          src="/images/claude-chart.png"
+          alt="Claude 1"
+          width={1000}
+          height={1000}
+        />
       </p>
+      <h3 className="text-2xl font-semibold mt-5 mb-2 text-gray-800">
+        My Attempt
+      </h3>
       <p className="text-base leading-7 mb-4 text-gray-700">
         I tried to produce something on my corporate Claude account, but it was
         notably less compelling:{" "}
@@ -312,7 +321,8 @@ export default function Page() {
           className="text-blue-600 hover:text-blue-800 underline"
         >
           https://claude.ai/artifacts/27d13513-6914-4348-9c6d-1defc97b8e91
-        </Link>. It's embedded below as well:
+        </Link>
+        . It's embedded below as well:
       </p>
       <div
         style={{
@@ -574,6 +584,18 @@ export default function Page() {
           </p>
         </div>
       </div>
+      <h3 className="text-2xl font-semibold mt-5 mb-2 text-gray-800">
+        Takeaways
+      </h3>
+      <ul className="list-disc ml-8 mb-2 space-y-1 text-gray-700">
+        <li className="pl-2 pt-2">
+          There's still a lot of randomness to how AI assistants produce charts.
+        </li>
+        <li className="pl-2 pt-2">
+          Claude's defaults looked pretty great for my friend, but less so for
+          me.
+        </li>
+      </ul>
     </ChartPageLayout>
   );
 }
