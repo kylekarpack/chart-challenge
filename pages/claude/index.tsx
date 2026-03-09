@@ -19,9 +19,9 @@ import Image from "next/image";
 
 export const meta = {
   slug: "claude",
-  title: "Claude",
+  title: "Claude Charts",
   publishedAt: "2026-03-08",
-  summary: "From a chat with a friend.",
+  summary: "From a chat with a friend about household spending over time.",
 } as const;
 
 // Data compiled from BLS Consumer Expenditure Surveys & BLS Report 991 "100 Years of US Consumer Spending"
@@ -302,7 +302,7 @@ export default function Page() {
         >
           https://claude.ai/public/artifacts/c4ebed8b-96f3-4974-8057-7ffca3acc3d7
         </Link>
-        . <Image src="./claude-chart.png" alt="Claude 1" width={1000} height={1000} />
+        . <Image src="/images/claude-chart.png" alt="Claude 1" width={1000} height={1000} />
       </p>
       <p className="text-base leading-7 mb-4 text-gray-700">
         I tried to produce something on my corporate Claude account, but it was
