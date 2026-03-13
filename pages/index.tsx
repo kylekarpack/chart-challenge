@@ -11,8 +11,10 @@ import { meta as inaturalistSunburstMeta } from "./inaturalist-sunburst";
 import { meta as hikeHistogramMeta } from "./hike-histogram";
 import { meta as terminalMeta } from "./terminal";
 import { meta as claudeMeta } from "./claude";
+import { meta as graphyMeta } from "./graphy";
 
 const allCharts: ChartMeta[] = [
+  graphyMeta,
   claudeMeta,
   terminalMeta,
   databenchMeta,
