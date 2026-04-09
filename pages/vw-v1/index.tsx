@@ -3,7 +3,7 @@
 import ChartPageLayout from "@/components/ChartPageLayout";
 import { EChartsOption, getInstanceByDom, init } from "echarts";
 import { useEffect, useRef } from "react";
-import { data } from "./data";
+import { vwData } from "@/lib/vw-v1/vw-data";
 
 export const meta = {
   slug: "vw-v1",
@@ -57,7 +57,7 @@ const option: EChartsOption = {
       "cac",
       "roas",
     ],
-    source: data,
+    source: vwData,
   },
   series: [
     {

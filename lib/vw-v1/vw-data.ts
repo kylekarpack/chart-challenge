@@ -1,4 +1,4 @@
-export const data = [
+export const vwData = [
     {
       week: "2024-01-07",
       spend: 6823.244000000001,
