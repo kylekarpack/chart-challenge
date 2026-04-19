@@ -6,10 +6,10 @@ import { useEffect, useMemo, useRef } from "react";
 
 export const meta = {
   slug: "sfo",
-  title: "Vizzy Takes a Trip to SFO",
-  publishedAt: "2026-04-16",
+  title: "Trip to SFO",
+  publishedAt: "2026-04-20",
   summary:
-    "An NY Mag–style Approval Matrix: SFO culture plotted on brilliant vs. despicable and highbrow vs. lowbrow.",
+    "Approval matrix for my time in San Francisco.",
 } as const;
 
 export type ApprovalMatrixItem = {
@@ -32,32 +32,51 @@ export const sfoApprovalMatrixItems: ApprovalMatrixItem[] = [
     lowHighBrow: 70,
   },
   {
+    label: "Wharf food",
+    brilliantDespicable: 25,
+    lowHighBrow: 10,
+  },
+  {
     label:
-      "Daniel gets his own room at the Fairmont. It may have been the walk-in closet.",
+      "Daniel gets his own room at the Fairmont, which may have been the walk-in closet",
     brilliantDespicable: 14,
     lowHighBrow: 80,
   },
   {
-    label: 'Riding in a Waymo saying "weeeeee"',
-    brilliantDespicable: 46,
-    lowHighBrow: 25,
+    label: 'Riding in a Waymo',
+    brilliantDespicable: 58,
+    lowHighBrow: 45,
   },
   {
-    label: "Beholding the vastness of the ocean from the Presidio",
+    label: 'Mission Burrito on the move',
+    brilliantDespicable: 78,
+    lowHighBrow: 24,
+  },
+  {
+    label: "Beholding the the ocean from the Presidio",
     brilliantDespicable: 88,
     lowHighBrow: 82,
   },
   {
     label: "Throwing rocks into the ocean from the Presidio",
-    brilliantDespicable: 28,
-    lowHighBrow: 13,
+    brilliantDespicable: 36,
+    lowHighBrow: 26,
   },
   {
     label: "Visiting 18 different playgrounds",
     brilliantDespicable: 88,
     lowHighBrow: 4,
   },
-
+  {
+    label: "Fancy Italian sandwich at the Joe DiMaggio playground",
+    brilliantDespicable: 40,
+    lowHighBrow: 55,
+  },
+  {
+    label: "TUNNEL. TOPS.",
+    brilliantDespicable: 93,
+    lowHighBrow: 40,
+  },
   {
     label: "Spending time with the best team ever",
     brilliantDespicable: 100,
@@ -70,16 +89,6 @@ const INK = "#111111";
 const PAPER = "#faf9f6";
 const SERIF =
   "Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Times New Roman', serif";
-
-const axisPoleRich = {
-  pole: {
-    fontFamily: SERIF,
-    fontSize: 15,
-    fontWeight: 700,
-    color: INK,
-    padding: [2, 0, 0, 0] as number[],
-  },
-};
 
 const EChart = ({
   option,
@@ -113,6 +122,16 @@ const EChart = ({
   return <div ref={chartRef} style={style} {...props} />;
 };
 
+const labelStyle = {
+  fontFamily: SERIF,
+  fontSize: 15,
+  fontWeight: 400,
+  fill: INK,
+  borderColor: INK,
+  borderWidth: 2,
+  padding: 8,
+};
+
 function buildOption(): EChartsOption {
   const scatterData = sfoApprovalMatrixItems.map((d) => ({
     name: d.label,
@@ -126,6 +145,46 @@ function buildOption(): EChartsOption {
         "ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif",
       color: INK,
     },
+    graphic: [
+      {
+        type: "text",
+        left: "center",
+        top: 97,
+        style: {
+          text: "Highbrow",
+          ...labelStyle,
+        },
+      },
+      {
+        type: "text",
+        left: "center",
+        bottom: 54,
+        style: {
+          text: "Lowbrow",
+          ...labelStyle,
+        },
+      },
+      {
+        type: "text",
+        left: 97,
+        top: "47%",
+        rotation: Math.PI / 2,
+        style: {
+          text: "Despicable",
+          ...labelStyle,
+        },
+      },
+      {
+        type: "text",
+        right: 97,
+        top: "48%",
+        rotation: -Math.PI / 2,
+        style: {
+          text: "Brilliant",
+          ...labelStyle,
+        },
+      },
+    ],
     title: [
       {
         text: "THE APPROVAL MATRIX",
@@ -170,92 +229,69 @@ function buildOption(): EChartsOption {
           <div style="opacity:0.9">Low–Highbrow: <b>${Math.round(y)}</b></div>`;
       },
     },
-    xAxis: {
-      type: "value",
-      min: 0,
-      max: 100,
-      /** Only pole ticks — matches print matrix (no 25/50/75). */
-      interval: 100,
-      name: "",
-      axisLine: {
-        show: true,
-        lineStyle: { color: INK, width: 2 },
-        onZero: false,
-      },
-      axisTick: { show: false },
-      splitLine: {
-        show: true,
-        lineStyle: { color: "#e8e6e1", type: "dashed" },
-      },
-      axisLabel: {
-        showMinLabel: true,
-        showMaxLabel: true,
-        hideOverlap: true,
-        margin: 18,
-        color: INK,
-        align: "center",
-        verticalAlign: "top",
-        formatter(value: number) {
-          if (value === 0) {
-            return "{pole|Despicable}";
-          }
-          if (value === 100) {
-            return "{pole|Brilliant}";
-          }
-          return "";
+    xAxis: [
+      {
+        type: "value",
+        min: 0,
+        max: 100,
+        interval: 2,
+        position: "bottom",
+        axisLine: {
+          show: false,
+          lineStyle: { color: INK, width: 2 },
+          onZero: false,
         },
-        rich: axisPoleRich,
-      },
-    },
-    yAxis: {
-      type: "value",
-      min: 0,
-      max: 100,
-      interval: 100,
-      axisLine: {
-        show: true,
-        lineStyle: {
-          color: INK,
-          width: 2,
+        axisTick: { show: false },
+        splitLine: {
+          show: true,
+          lineStyle: { color: "#e8e6e1", width: 1, type: "solid" },
         },
-        onZero: false,
-      },
-      axisTick: { show: false },
-      splitLine: {
-        show: true,
-        lineStyle: {
-          color: "#e8e6e1",
-          type: "dashed",
+        axisLabel: {
+          showMinLabel: false,
+          showMaxLabel: false,
+          show: false,
         },
       },
-      axisLabel: {
-        showMinLabel: true,
-        showMaxLabel: true,
-        hideOverlap: true,
-        margin: 14,
-        color: INK,
-        align: "center",
-        verticalAlign: "middle",
-        formatter(value: number) {
-          if (value === 0) {
-            return "{pole|Lowbrow}";
-          }
-          if (value === 100) {
-            return "{pole|Highbrow}";
-          }
-          return "";
+    ],
+    yAxis: [
+      {
+        type: "value",
+        min: 0,
+        max: 100,
+        interval: 2,
+        position: "left",
+        axisLine: {
+          show: false,
+          lineStyle: {
+            color: INK,
+            width: 2,
+          },
+          onZero: false,
         },
-        rich: axisPoleRich,
+        axisTick: { show: false },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            color: "#e8e6e1",
+            width: 1,
+            type: "solid",
+          },
+        },
+        axisLabel: {
+          showMinLabel: false,
+          showMaxLabel: false,
+          show: false,
+        },
       },
-    },
+    ],
     series: [
       {
         type: "scatter",
         name: "Items",
         data: scatterData,
-        symbolSize: 10,
+        symbolSize: 8,
         itemStyle: {
-          color: NY_RED,
+          color: INK,
           borderColor: INK,
           borderWidth: 1.5,
         },
@@ -263,7 +299,7 @@ function buildOption(): EChartsOption {
           scale: 1.35,
           itemStyle: {
             shadowBlur: 12,
-            shadowColor: "rgba(196,18,48,0.35)",
+            shadowColor: "rgba(11, 11, 11, 0.35)",
           },
         },
         label: {
@@ -273,7 +309,7 @@ function buildOption(): EChartsOption {
           distance: 8,
           color: INK,
           fontSize: 11,
-          fontWeight: 600,
+          fontWeight: 500,
           overflow: "break",
           width: 120,
         },
@@ -285,7 +321,7 @@ function buildOption(): EChartsOption {
               {
                 xAxis: 0,
                 yAxis: 100,
-                itemStyle: { color: "rgba(196,18,48,0.06)" },
+                itemStyle: { color: "rgba(209, 209, 209, 0.09)" },
               },
               { xAxis: 50, yAxis: 50 },
             ],
@@ -293,7 +329,7 @@ function buildOption(): EChartsOption {
               {
                 xAxis: 50,
                 yAxis: 100,
-                itemStyle: { color: "rgba(17,17,17,0.03)" },
+                itemStyle: { color: "rgba(209, 209, 209, 0.09)" },
               },
               { xAxis: 100, yAxis: 50 },
             ],
@@ -301,7 +337,7 @@ function buildOption(): EChartsOption {
               {
                 xAxis: 0,
                 yAxis: 50,
-                itemStyle: { color: "rgba(17,17,17,0.03)" },
+                itemStyle: { color: "rgba(209, 209, 209, 0.09)" },
               },
               { xAxis: 50, yAxis: 0 },
             ],
@@ -309,7 +345,7 @@ function buildOption(): EChartsOption {
               {
                 xAxis: 50,
                 yAxis: 50,
-                itemStyle: { color: "rgba(196,18,48,0.05)" },
+                itemStyle: { color: "rgba(209, 209, 209, 0.09)" },
               },
               { xAxis: 100, yAxis: 0 },
             ],
@@ -343,6 +379,10 @@ export default function Page() {
             chartSettings={{ renderer: "canvas", height: 1000 }}
           />
         </div>
+        <h3 className="text-2xl font-semibold mt-8 mb-2 text-gray-800"> Takeaways: </h3>
+        <ul className="list-disc ml-8 mb-2 space-y-1 text-gray-700">
+          <li className="pl-2 pt-2">Lots of playgrounds.</li>
+        </ul>
       </>
     </ChartPageLayout>
   );
