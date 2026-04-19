@@ -14,8 +14,10 @@ import { meta as claudeMeta } from "./claude";
 import { meta as graphyMeta } from "./graphy";
 import { meta as splashMeta } from "./splash";
 import { meta as vwV1Meta } from "./vw-v1";
+import { meta as sfoMeta } from "./sfo";
 
 const allCharts: ChartMeta[] = [
+  sfoMeta,
   vwV1Meta,
   splashMeta,
   graphyMeta,
