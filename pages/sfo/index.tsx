@@ -8,8 +8,7 @@ export const meta = {
   slug: "sfo",
   title: "Trip to SFO",
   publishedAt: "2026-04-20",
-  summary:
-    "Approval matrix for my time in San Francisco.",
+  summary: "Approval matrix for my time in San Francisco.",
 } as const;
 
 export type ApprovalMatrixItem = {
@@ -43,12 +42,17 @@ export const sfoApprovalMatrixItems: ApprovalMatrixItem[] = [
     lowHighBrow: 80,
   },
   {
-    label: 'Riding in a Waymo',
-    brilliantDespicable: 58,
-    lowHighBrow: 45,
+    label: "54 miles of walking",
+    brilliantDespicable: 68,
+    lowHighBrow: 44,
   },
   {
-    label: 'Mission Burrito on the move',
+    label: "Riding in a Waymo",
+    brilliantDespicable: 57,
+    lowHighBrow: 55,
+  },
+  {
+    label: "Mission Burrito on the move",
     brilliantDespicable: 78,
     lowHighBrow: 24,
   },
@@ -379,7 +383,10 @@ export default function Page() {
             chartSettings={{ renderer: "canvas", height: 1000 }}
           />
         </div>
-        <h3 className="text-2xl font-semibold mt-8 mb-2 text-gray-800"> Takeaways: </h3>
+        <h3 className="text-2xl font-semibold mt-8 mb-2 text-gray-800">
+          {" "}
+          Takeaways:{" "}
+        </h3>
         <ul className="list-disc ml-8 mb-2 space-y-1 text-gray-700">
           <li className="pl-2 pt-2">Lots of playgrounds.</li>
         </ul>
