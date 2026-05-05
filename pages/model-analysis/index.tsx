@@ -169,19 +169,20 @@ export const modelPoints: ModelPoint[] = [
   },
 ];
 
+/** One distinct color per provider family (12-way categorical, tuned for a light background). */
 const FAMILY_COLOR: Record<ModelPoint["family"], string> = {
-  openai: "#111827",
-  google: "#15803d",
-  anthropic: "#92400e",
-  xai: "#15803d",
-  mistral: "#ea580c",
-  qwen: "#ea580c",
-  minimax: "#db2777",
-  glm: "#2563eb",
-  deepseek: "#2563eb",
-  kimi: "#2563eb",
-  other: "#ea580c",
-  googlePro: "#7c3aed",
+  openai: "#0f172a", // slate-900
+  anthropic: "#9a3412", // orange-800
+  google: "#166534", // green-800
+  googlePro: "#6d28d9", // violet-700
+  xai: "#0f766e", // teal-700
+  mistral: "#c2410c", // orange-700
+  qwen: "#be123c", // rose-700
+  minimax: "#a21caf", // fuchsia-800
+  glm: "#1d4ed8", // blue-700
+  deepseek: "#4338ca", // indigo-700
+  kimi: "#0e7490", // cyan-800
+  other: "#a16207", // yellow-700
 };
 
 /** Stable legend order (only families present in data are shown). */
@@ -259,12 +260,14 @@ const scatterSeriesBase = {
     formatter: "{b}",
     position: "top" as const,
     distance: 6,
-    fontSize: 10,
+    fontSize: 9,
     color: "#404040",
     width: 200,
     overflow: "break" as const,
   },
-  labelLayout: { hideOverlap: true },
+  labelLayout: {
+    hideOverlap: true,
+  },
 };
 
 const markAreaZones = {
@@ -381,7 +384,7 @@ function buildOption(): EChartsOption {
       axisLine: { lineStyle: { color: "#a3a3a3" } },
     },
     series: scatterSeries as EChartsOption["series"],
-  };
+  } satisfies EChartsOption;
 }
 
 export default function Page() {
@@ -410,6 +413,9 @@ export default function Page() {
           </li>
           <li className="pl-2">
             As expected, there are no clear winners here. The right choice is going to depend on use case.
+          </li>
+          <li className="pl-2">
+            Matrices are neat charts.
           </li>
         </ul>
       </>
