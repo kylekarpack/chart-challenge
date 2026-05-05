@@ -228,7 +228,7 @@ const EChart = ({
   option,
   chartSettings,
   optionSettings,
-  style = { width: "100%", height: "640px" },
+  style = { width: "100%", height: "800px" },
   ...props
 }: {
   option: EChartsOption;
@@ -464,7 +464,7 @@ export default function Page() {
         <div className="mt-6 w-full rounded-lg overflow-hidden shadow-md border border-gray-200 bg-neutral-50">
           <EChart
             option={option}
-            chartSettings={{ renderer: "canvas", height: 640 }}
+            chartSettings={{ renderer: "canvas", height: 800 }}
           />
         </div>
         <h3 className="text-xl font-semibold mt-8 mb-2 text-gray-800">
