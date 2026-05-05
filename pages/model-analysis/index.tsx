@@ -216,6 +216,14 @@ const PROVIDER_LABEL: Record<ModelPoint["family"], string> = {
   other: "Other",
 };
 
+/** Shorten on-chart labels so bounding boxes match ink (helps hideOverlap). Full name stays in tooltip. */
+function ellipsizeLabel(text: string, maxChars: number): string {
+  if (text.length <= maxChars) {
+    return text;
+  }
+  return `${text.slice(0, Math.max(0, maxChars - 1))}…`;
+}
+
 const EChart = ({
   option,
   chartSettings,
@@ -248,7 +256,7 @@ const EChart = ({
   return <div ref={chartRef} style={style} {...props} />;
 };
 
-const scatterSeriesBase = {
+const scatterSeriesCommon = {
   type: "scatter" as const,
   symbolSize: 10,
   emphasis: {
@@ -257,18 +265,28 @@ const scatterSeriesBase = {
   },
   label: {
     show: true,
-    formatter: "{b}",
+    formatter(params: { name?: string }) {
+      return ellipsizeLabel(params.name ?? "", 26);
+    },
     position: "top" as const,
     distance: 6,
     fontSize: 9,
     color: "#404040",
-    width: 200,
-    overflow: "break" as const,
+    /**
+     * Moderate width keeps wrapped/truncated bounds closer to actual ink than a very wide box
+     * (huge boxes break overlap detection — labels look stacked but rects do not intersect).
+     */
+    width: 128,
+    overflow: "truncate" as const,
   },
   labelLayout: {
+    moveOverlap: "shiftY",
     hideOverlap: true,
   },
 };
+
+/** Internal series name — not listed in `legend.data`, so zones are not toggled with providers. */
+const MATRIX_ZONE_SERIES_NAME = "_matrixZones";
 
 const markAreaZones = {
   silent: true,
@@ -292,29 +310,49 @@ const markAreaZones = {
   ],
 };
 
+/** Renders quadrant shading behind scatter points; excluded from legend so it stays when toggling families. */
+const matrixZoneSeries = {
+  type: "scatter" as const,
+  name: MATRIX_ZONE_SERIES_NAME,
+  data: [],
+  silent: true,
+  markArea: markAreaZones,
+  zlevel: 0,
+};
+
 function buildOption(): EChartsOption {
   const familiesPresent = new Set(modelPoints.map((d) => d.family));
   const orderedFamilies = PROVIDER_LEGEND_ORDER.filter((f) =>
     familiesPresent.has(f),
   );
 
-  const scatterSeries = orderedFamilies.map((family, index) => ({
-    ...scatterSeriesBase,
-    name: PROVIDER_LABEL[family],
-    data: modelPoints
-      .filter((d) => d.family === family)
-      .map((d) => ({
-        name: d.name,
-        value: [d.seconds500, d.intelligenceIndex] as [number, number],
-      })),
+  const familyToIndex = Object.fromEntries(
+    orderedFamilies.map((f, i) => [f, i]),
+  ) as Record<ModelPoint["family"], number>;
+
+  /**
+   * Single scatter series so Apache ECharts LabelLayout runs one global overlap pass.
+   * (Multiple series each contribute labels, but overlap resolution is easier to reason about
+   * with one series — and `visualMap` below restores per-provider colors + legend.)
+   */
+  const scatterSeries = {
+    ...scatterSeriesCommon,
+    name: "Models",
+    encode: { x: 0, y: 1 },
+    data: modelPoints.map((d) => ({
+      name: d.name,
+      value: [d.seconds500, d.intelligenceIndex, familyToIndex[d.family]] as [
+        number,
+        number,
+        number,
+      ],
+    })),
     itemStyle: {
-      color: FAMILY_COLOR[family],
       borderColor: "rgba(0,0,0,0.15)",
       borderWidth: 1,
     },
-    markArea: index === 0 ? markAreaZones : undefined,
     zlevel: 1,
-  }));
+  };
 
   return {
     backgroundColor: "#fafafa",
@@ -329,14 +367,36 @@ function buildOption(): EChartsOption {
       top: 12,
       textStyle: { fontSize: 15, fontWeight: 600, color: "#262626" },
     },
-    legend: {
+    legend: { show: false },
+    visualMap: {
+      type: "piecewise",
+      dimension: 2,
+      seriesIndex: 1,
       orient: "vertical",
+      /**
+       * Vertical piecewise maps reverse list order by default (`normalizeReverse`), which
+       * inverts `PROVIDER_LEGEND_ORDER`. `inverse: true` skips that reverse so items stay
+       * in deterministic provider order (same as `orderedFamilies` / piece indices 0..n).
+       */
+      inverse: true,
       right: 12,
       top: "middle",
       itemGap: 10,
       itemWidth: 12,
       itemHeight: 12,
       textStyle: { fontSize: 11, color: "#404040" },
+      /** Turned-off categories must disappear from the plot (defaults keep faint/grey markers). */
+      outOfRange: {
+        color: "rgba(0,0,0,0)",
+        opacity: 0,
+        symbolSize: 0,
+      },
+      pieces: orderedFamilies.map((f, i) => ({
+        min: i,
+        max: i,
+        label: PROVIDER_LABEL[f],
+        color: FAMILY_COLOR[f],
+      })),
     },
     grid: { left: 72, right: 148, top: 56, bottom: 72, containLabel: false },
     tooltip: {
@@ -348,14 +408,17 @@ function buildOption(): EChartsOption {
         const p = params as {
           name?: string;
           value?: number[];
-          seriesName?: string;
         };
-        const [sec, intel] = p.value ?? [];
+        const [sec, intel, famIdx] = p.value ?? [];
         if (sec === undefined || intel === undefined) return "";
+        const fam =
+          famIdx !== undefined && orderedFamilies[famIdx] !== undefined
+            ? orderedFamilies[famIdx]
+            : undefined;
         const provider =
-          p.seriesName === undefined
+          fam === undefined
             ? ""
-            : `<div style="opacity:0.85;font-size:12px;margin-bottom:4px">${p.seriesName}</div>`;
+            : `<div style="opacity:0.85;font-size:12px;margin-bottom:4px">${PROVIDER_LABEL[fam]}</div>`;
         return `<div style="font-weight:600;margin-bottom:6px">${p.name}</div>${provider}
           <div style="opacity:0.92">500-token latency: <b>${sec}s</b></div>
           <div style="opacity:0.92">Intelligence index: <b>${intel}</b></div>`;
@@ -383,8 +446,8 @@ function buildOption(): EChartsOption {
       splitLine: { lineStyle: { color: "#e5e5e5" } },
       axisLine: { lineStyle: { color: "#a3a3a3" } },
     },
-    series: scatterSeries as EChartsOption["series"],
-  } satisfies EChartsOption;
+    series: [matrixZoneSeries, scatterSeries] as EChartsOption["series"],
+  };
 }
 
 export default function Page() {
@@ -409,13 +472,16 @@ export default function Page() {
         </h3>
         <ul className="list-disc ml-8 mb-2 space-y-1 text-gray-700">
           <li className="pl-2">
-            We all love Claude, and for good reason. It is not as fast as some competitors, but it is very capable.
+            We all love Claude, and for good reason. It is not as fast as some
+            competitors, but it is very capable.
           </li>
           <li className="pl-2">
-            As expected, there are no clear winners here. The right choice is going to depend on use case.
+            As expected, there are no clear winners here. The right choice is
+            going to depend on use case.
           </li>
+          <li className="pl-2">Matrices are neat charts.</li>
           <li className="pl-2">
-            Matrices are neat charts.
+            Label collisions are the problem that never goes away.
           </li>
         </ul>
       </>
