@@ -17,8 +17,10 @@ import { meta as vwV1Meta } from "./vw-v1";
 import { meta as sfoMeta } from "./sfo";
 import { meta as modelAnalysisMeta } from "./model-analysis";
 import { meta as singleBarMeta } from "./single-bar";
+import { meta as recentTokenUsageMeta } from "./recent-token-usage";
 
 const allCharts: ChartMeta[] = [
+  recentTokenUsageMeta,
   singleBarMeta,
   modelAnalysisMeta,
   sfoMeta,
